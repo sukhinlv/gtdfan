@@ -6,12 +6,20 @@ spring:
 #    user:
 #      name: user
 #      password: user
+
   # Database
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/gtdfan
-    username: user
-    password: password
+    # inmemory db
+    url: jdbc:h2:mem:gtdfan
+    username: sa
+    password:
+
+    # postgresql db
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5433/gtdfan
+#    username: user
+#    password: password
+
   # JPA properties
   jpa:
     hibernate:
@@ -22,6 +30,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+
 ## Logger configuration
 #logging:
 #  pattern:
@@ -29,6 +38,7 @@ spring:
 #  level:
 #    org.springframework: info
 #    org.hibernate: debug
+
 # Server configuration
 server:
   port: 8090 #set your port
