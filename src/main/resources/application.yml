@@ -1,12 +1,4 @@
 spring:
-#  profiles:
-#    active: development
-#  # Security configuration
-#  security:
-#    user:
-#      name: user
-#      password: user
-
   # Database
   datasource:
     # inmemory db
@@ -15,30 +7,74 @@ spring:
     password:
 
     # postgresql db
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5433/gtdfan
-#    username: user
-#    password: password
+  #    driver-class-name: org.postgresql.Driver
+  #    url: jdbc:postgresql://localhost:5433/gtdfan
+  #    username: user
+  #    password: password
 
   # JPA properties
   jpa:
-    hibernate:
-      ddl-auto: create-drop
-#      ddl-auto: update # When you launch the application for the first time - switch "none" at "create"
-    show-sql: true
+    # ???
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    open-in-view: false
     generate-ddl: true
 
-## Logger configuration
-#logging:
-#  pattern:
-#    console: "%d %-5level %logger : %msg%n"
-#  level:
-#    org.springframework: info
-#    org.hibernate: debug
+    hibernate:
+      ddl-auto: create-drop # When you launch the application for the first time - switch "none" at "create"
+    properties:
+      #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 20
+        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
+        jdbc.batch_size: 20
+    show-sql: true
+    open-in-view: false
+    # https://stackoverflow.com/a/67678945/548473
+    defer-datasource-initialization: true
+
+  # Jackson Serialization Issue Resolver
+  jackson.visibility:
+    field: any
+    getter: none
+    setter: none
+    is-getter: none
+
+# Logger configuration
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  level:
+    root: WARN # set to DEBUG if too many warnings
+    ru.jsft.gtdfan: DEBUG
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+    org.springframework: ERROR
+    org.hibernate: DEBUG
+  # https://www.codejava.net/frameworks/spring-boot/logback-rolling-files-example
+  file:
+    name: ${GTDFAN_ROOT}/log/gtdfan.log
+  # https://stackoverflow.com/questions/29918323/how-to-configure-rolling-file-appender-within-spring-boots-application-yml
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.logging.custom-log-configuration
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz
+      max-history: 30
 
 # Server configuration
 server:
   port: 8090 #set your port
+  servlet:
+    encoding:
+      charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
+      enabled: true # Enable http encoding support
+      force: true
+
+#  profiles:
+#    active: development
+
+#  # Security configuration
+#  security:
+#    user:
+#      name: user
+#      password: user
