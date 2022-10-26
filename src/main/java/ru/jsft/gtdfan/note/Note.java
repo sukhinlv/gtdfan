@@ -1,6 +1,5 @@
-package ru.jsft.gtdfan.users;
+package ru.jsft.gtdfan.note;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,24 +12,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Note {
     @Id
     private Integer id;
 
-    @NoHtml
     @NotBlank
-    private String name;
+    private LocalDateTime edited = LocalDateTime.now();
 
     @NoHtml
     @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
-    private String password;
-
-    @NotBlank
-    private LocalDateTime registered = LocalDateTime.now();
-
-    private boolean enabled = true;
+    private String noteText;
 }

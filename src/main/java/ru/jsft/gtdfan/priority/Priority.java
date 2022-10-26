@@ -1,6 +1,5 @@
-package ru.jsft.gtdfan.users;
+package ru.jsft.gtdfan.priority;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,12 +7,10 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Priority {
     @Id
     private Integer id;
 
@@ -21,16 +18,6 @@ public class User {
     @NotBlank
     private String name;
 
-    @NoHtml
     @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
-    private String password;
-
-    @NotBlank
-    private LocalDateTime registered = LocalDateTime.now();
-
-    private boolean enabled = true;
+    private Integer level;
 }
