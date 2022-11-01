@@ -1,7 +1,9 @@
 package ru.jsft.gtdfan.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User extends BaseEntity {
+@AllArgsConstructor
+public class Users extends BaseEntity {
 
     @NoHtml
     @NotBlank
@@ -25,6 +28,7 @@ public class User extends BaseEntity {
     private String email;
 
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotBlank

@@ -15,7 +15,6 @@ spring:
 
   # JPA properties
   jpa:
-    show-sql: true
     open-in-view: false
     # https://stackoverflow.com/a/67678945/548473
     defer-datasource-initialization: true
@@ -37,7 +36,8 @@ logging:
     ru.jsft.gtdfan: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
     org.springframework: ERROR
-    org.hibernate: DEBUG
+    # https://vladmihalcea.com/log-sql-spring-boot/
+    net.ttddyy.dsproxy.listener: DEBUG
   # https://www.codejava.net/frameworks/spring-boot/logback-rolling-files-example
   file:
     name: ${GTDFAN_ROOT}/log/gtdfan.log
