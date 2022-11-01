@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
+import ru.jsft.gtdfan.commonmodel.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import java.time.LocalDateTime;
@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
-    @Id
-    private Integer id;
+public class User extends BaseEntity {
 
     @NoHtml
     @NotBlank

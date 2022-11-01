@@ -21,8 +21,6 @@
 
     <properties>
         <java.version>17</java.version>
-        <validation-api.version>2.0.1.Final</validation-api.version>
-        <h2.version>2.1.214</h2.version>
         <jsoup.version>1.15.3</jsoup.version>
         <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
     </properties>
@@ -57,7 +55,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
         </dependency>
 
         <!-- Validation -->
@@ -66,7 +63,6 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation-api.version}</version>
         </dependency>
-
 
         <!-- Tests -->
         <dependency>
