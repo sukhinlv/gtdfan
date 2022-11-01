@@ -1,6 +1,5 @@
 package ru.jsft.gtdfan.task;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +13,7 @@ import ru.jsft.gtdfan.priority.Priority;
 import ru.jsft.gtdfan.users.Users;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 

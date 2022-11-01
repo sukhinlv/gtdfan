@@ -1,5 +1,5 @@
 spring:
-  # Database
+
   datasource:
     # inmemory db
 #    driver-class-name: org.h2.Driver
@@ -16,8 +16,12 @@ spring:
   # JPA properties
   jpa:
     open-in-view: false
-    # https://stackoverflow.com/a/67678945/548473
-    defer-datasource-initialization: true
+
+  sql:
+    init:
+      # https://stackoverflow.com/a/38047021/20265936
+      mode: always
+
 
   # Jackson Serialization Issue Resolver
   jackson.visibility:

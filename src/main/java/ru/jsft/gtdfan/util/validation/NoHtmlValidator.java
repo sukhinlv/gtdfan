@@ -1,9 +1,10 @@
 package ru.jsft.gtdfan.util.validation;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 public class NoHtmlValidator implements ConstraintValidator<NoHtml, String> {
 

@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import ru.jsft.gtdfan.note.NoteRepository;
 
 @Configuration
-public class PopulateNotes {
+public class PopulateTasks {
 
     @Bean
     CommandLineRunner commandLineRunner(NoteRepository repository) {
         return args -> {
-//            repository.save(new Note(LocalDateTime.now(), "Sample note"));
-//            repository.save(new Note(LocalDateTime.now(), "Another sample note"));
+            // TODO: implement some actions or delete class
+
         };
     }
 }
