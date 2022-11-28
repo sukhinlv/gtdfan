@@ -1,6 +1,8 @@
-package ru.jsft.gtdfan.users;
+package ru.jsft.gtdfan.service;
 
 import org.springframework.stereotype.Service;
+import ru.jsft.gtdfan.model.Users;
+import ru.jsft.gtdfan.repository.UsersRepository;
 
 @Service
 public class UsersService {

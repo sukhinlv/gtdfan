@@ -1,10 +1,9 @@
-package ru.jsft.gtdfan.priority;
+package ru.jsft.gtdfan.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.jsft.gtdfan.commonmodel.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
@@ -13,12 +12,9 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Priority extends BaseEntity {
+public class Category extends BaseEntity {
 
     @NoHtml
     @NotBlank
     private String name;
-
-    @NotBlank
-    private Integer level;
 }

@@ -1,6 +1,8 @@
-package ru.jsft.gtdfan.task;
+package ru.jsft.gtdfan.service;
 
 import org.springframework.stereotype.Service;
+import ru.jsft.gtdfan.model.Task;
+import ru.jsft.gtdfan.repository.TaskRepository;
 
 @Service
 public class TaskService {

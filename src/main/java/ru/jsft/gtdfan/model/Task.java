@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.task;
+package ru.jsft.gtdfan.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,11 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.data.relational.core.mapping.MappedCollection;
-import ru.jsft.gtdfan.category.Category;
-import ru.jsft.gtdfan.commonmodel.BaseEntity;
-import ru.jsft.gtdfan.note.Note;
-import ru.jsft.gtdfan.priority.Priority;
-import ru.jsft.gtdfan.users.Users;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;

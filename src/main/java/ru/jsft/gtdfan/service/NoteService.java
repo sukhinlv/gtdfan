@@ -1,6 +1,8 @@
-package ru.jsft.gtdfan.note;
+package ru.jsft.gtdfan.service;
 
 import org.springframework.stereotype.Service;
+import ru.jsft.gtdfan.model.Note;
+import ru.jsft.gtdfan.repository.NoteRepository;
 
 @Service
 public class NoteService {

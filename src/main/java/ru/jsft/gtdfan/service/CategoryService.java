@@ -1,6 +1,8 @@
-package ru.jsft.gtdfan.category;
+package ru.jsft.gtdfan.service;
 
 import org.springframework.stereotype.Service;
+import ru.jsft.gtdfan.model.Category;
+import ru.jsft.gtdfan.repository.CategoryRepository;
 
 @Service
 public class CategoryService {

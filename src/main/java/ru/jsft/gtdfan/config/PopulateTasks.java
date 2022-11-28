@@ -3,7 +3,7 @@ package ru.jsft.gtdfan.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.jsft.gtdfan.note.NoteRepository;
+import ru.jsft.gtdfan.repository.NoteRepository;
 
 @Configuration
 public class PopulateTasks {

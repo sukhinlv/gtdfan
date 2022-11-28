@@ -21,6 +21,8 @@ spring:
     init:
       # https://stackoverflow.com/a/38047021/20265936
       mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
 
 
   # Jackson Serialization Issue Resolver

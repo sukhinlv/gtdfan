@@ -1,6 +1,8 @@
-package ru.jsft.gtdfan.priority;
+package ru.jsft.gtdfan.service;
 
 import org.springframework.stereotype.Service;
+import ru.jsft.gtdfan.model.Priority;
+import ru.jsft.gtdfan.repository.PriorityRepository;
 
 @Service
 public class PriorityService {

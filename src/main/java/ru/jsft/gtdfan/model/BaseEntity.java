@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.commonmodel;
+package ru.jsft.gtdfan.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.util.ProxyUtils;
