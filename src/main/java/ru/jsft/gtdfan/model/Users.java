@@ -1,10 +1,7 @@
 package ru.jsft.gtdfan.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 public class Users extends BaseEntity {
 
     @NoHtml
