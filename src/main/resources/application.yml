@@ -13,17 +13,12 @@ spring:
       username: user
       password: password
 
-  # JPA properties
-  jpa:
-    open-in-view: false
-
   sql:
     init:
       # https://stackoverflow.com/a/38047021/20265936
       mode: always
       schema-locations: classpath:db/schema.sql
       data-locations: classpath:db/data.sql
-
 
   # Jackson Serialization Issue Resolver
   jackson.visibility:
@@ -42,8 +37,7 @@ logging:
     ru.jsft.gtdfan: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
     org.springframework: ERROR
-    # https://vladmihalcea.com/log-sql-spring-boot/
-    net.ttddyy.dsproxy.listener: DEBUG
+    net.ttddyy.dsproxy.listener: DEBUG # https://vladmihalcea.com/log-sql-spring-boot/
   # https://www.codejava.net/frameworks/spring-boot/logback-rolling-files-example
   file:
     name: ${GTDFAN_ROOT}/log/gtdfan.log
