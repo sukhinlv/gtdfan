@@ -1,15 +1,17 @@
 package ru.jsft.gtdfan.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.jsft.gtdfan.controller.dto.CategoryDto;
 import ru.jsft.gtdfan.controller.mapper.CategoryMapper;
+import ru.jsft.gtdfan.model.Category;
 import ru.jsft.gtdfan.service.CategoryService;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -37,4 +39,23 @@ public class CategoryController {
         return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.findById(id)));
     }
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto mealDto) {
+        Category created = service.create(CategoryMapper.INSTANCE.toEntity(mealDto));
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(CategoryMapper.INSTANCE.toDto(created));
+    }
+
+    @DeleteMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable long id) {
+        service.delete(id);
+    }
+
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CategoryDto> update(@PathVariable long id, @Valid @RequestBody CategoryDto mealDto) {
+        return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.update(id, CategoryMapper.INSTANCE.toEntity(mealDto))));
+    }
 }
