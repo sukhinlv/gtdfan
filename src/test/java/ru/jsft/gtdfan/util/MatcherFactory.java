@@ -1,5 +1,6 @@
 package ru.jsft.gtdfan.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -17,6 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Support converting json MvcResult to objects for comparation.
  */
 public class MatcherFactory {
+
+    private static final JsonUtil JSON_UTIL = new JsonUtil(new ObjectMapper());
+
     public static <T> Matcher<T> usingIgnoringFieldsComparator(Class<T> clazz, String... fieldsToIgnore) {
         return new Matcher<>(clazz, fieldsToIgnore);
     }
@@ -44,7 +48,7 @@ public class MatcherFactory {
         }
 
         public ResultMatcher contentJson(T expected) {
-            return result -> assertMatch(JsonUtil.readValue(getContent(result), clazz), expected);
+            return result -> assertMatch(JSON_UTIL.readValue(getContent(result), clazz), expected);
         }
 
         @SafeVarargs
@@ -53,11 +57,11 @@ public class MatcherFactory {
         }
 
         public ResultMatcher contentJson(Iterable<T> expected) {
-            return result -> assertMatch(JsonUtil.readValues(getContent(result), clazz), expected);
+            return result -> assertMatch(JSON_UTIL.readValues(getContent(result), clazz), expected);
         }
 
         public T readFromJson(ResultActions action) throws UnsupportedEncodingException {
-            return JsonUtil.readValue(getContent(action.andReturn()), clazz);
+            return JSON_UTIL.readValue(getContent(action.andReturn()), clazz);
         }
 
         private static String getContent(MvcResult result) throws UnsupportedEncodingException {

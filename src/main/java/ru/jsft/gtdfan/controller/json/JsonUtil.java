@@ -3,19 +3,21 @@ package ru.jsft.gtdfan.controller.json;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
 
+@Component
 public class JsonUtil {
 
-    private static ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
-    public static void setMapper(ObjectMapper mapper) {
-        JsonUtil.mapper = mapper;
+    public JsonUtil(ObjectMapper mapper) {
+        this.mapper = mapper;
     }
 
-    public static <T> List<T> readValues(String json, Class<T> clazz) {
+    public <T> List<T> readValues(String json, Class<T> clazz) {
         ObjectReader reader = mapper.readerFor(clazz);
         try {
             return reader.<T>readValues(json).readAll();
@@ -24,7 +26,7 @@ public class JsonUtil {
         }
     }
 
-    public static <T> T readValue(String json, Class<T> clazz) {
+    public <T> T readValue(String json, Class<T> clazz) {
         try {
             return mapper.readValue(json, clazz);
         } catch (IOException e) {
@@ -32,7 +34,7 @@ public class JsonUtil {
         }
     }
 
-    public static <T> String writeValue(T obj) {
+    public <T> String writeValue(T obj) {
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
