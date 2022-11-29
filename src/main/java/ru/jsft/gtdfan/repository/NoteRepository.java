@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.jsft.gtdfan.model.Note;
 
 @Repository
-public interface NoteRepository extends CrudRepository<Note, Integer> {
+public interface NoteRepository extends CrudRepository<Note, Long> {
 }

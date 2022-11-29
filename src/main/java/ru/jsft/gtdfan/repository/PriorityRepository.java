@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.jsft.gtdfan.model.Priority;
 
 @Repository
-public interface PriorityRepository extends CrudRepository<Priority, Integer> {
+public interface PriorityRepository extends CrudRepository<Priority, Long> {
 }

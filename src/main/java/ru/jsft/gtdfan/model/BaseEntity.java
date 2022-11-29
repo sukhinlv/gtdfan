@@ -7,12 +7,12 @@ import java.util.Objects;
 
 public abstract class BaseEntity {
     @Id
-    protected Integer id;
+    protected Long id;
 
     public BaseEntity() {
     }
 
-    public BaseEntity(Integer id) {
+    public BaseEntity(Long id) {
         this.id = id;
     }
 
@@ -20,11 +20,11 @@ public abstract class BaseEntity {
         return id == null;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

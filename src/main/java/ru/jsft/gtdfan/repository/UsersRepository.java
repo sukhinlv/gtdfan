@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.jsft.gtdfan.model.Users;
 
 @Repository
-public interface UsersRepository extends CrudRepository<Users, Integer> {
+public interface UsersRepository extends CrudRepository<Users, Long> {
 }
