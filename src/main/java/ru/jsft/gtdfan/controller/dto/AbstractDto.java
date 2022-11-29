@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-// NoArgs and AllArgs need for Mapstruct to correctly map extended classes like CategoryDto
-// otherwise it can do not map id field and other fields of superclass
+// NoArgs and AllArgs need for Mapstruct to correctly map id field and other fields of superclass
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
