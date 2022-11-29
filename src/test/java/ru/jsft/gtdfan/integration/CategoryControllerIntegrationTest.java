@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.controller;
+package ru.jsft.gtdfan.integration;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 import ru.jsft.gtdfan.AbstractControllerTest;
+import ru.jsft.gtdfan.controller.CategoryController;
 import ru.jsft.gtdfan.controller.dto.CategoryDto;
 import ru.jsft.gtdfan.controller.mapper.CategoryMapper;
 import ru.jsft.gtdfan.error.NotFoundException;
