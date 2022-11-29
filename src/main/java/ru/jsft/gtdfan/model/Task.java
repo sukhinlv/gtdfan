@@ -44,7 +44,7 @@ public class Task extends BaseEntity {
 
     @NotBlank
     @MappedCollection(idColumn = "id", keyColumn = "user_id")
-    private Users user;
+    private User user;
 //    @NotBlank
 //    private AggregateReference<Users, Integer> userId;
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class Users extends BaseEntity {
+public class User extends BaseEntity {
 
     @NoHtml
     @NotBlank

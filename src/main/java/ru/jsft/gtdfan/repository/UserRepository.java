@@ -2,8 +2,8 @@ package ru.jsft.gtdfan.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.jsft.gtdfan.model.Users;
+import ru.jsft.gtdfan.model.User;
 
 @Repository
-public interface UsersRepository extends CrudRepository<Users, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 }
