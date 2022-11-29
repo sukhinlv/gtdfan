@@ -4,6 +4,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.jsft.gtdfan.controller.dto.CategoryDto;
@@ -18,10 +19,8 @@ import java.util.stream.StreamSupport;
 @RequestMapping(value = CategoryController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryController {
     public static final String REST_URL = "/api/v1/categories";
-
+    private static final CategoryMapper mapper = Mappers.getMapper(CategoryMapper.class);
     private final CategoryService service;
-
-    private final CategoryMapper mapper = Mappers.getMapper(CategoryMapper.class);
 
     public CategoryController(CategoryService service) {
         this.service = service;
@@ -34,4 +33,10 @@ public class CategoryController {
                 .sorted(Comparator.comparing(CategoryDto::getName))
                 .toList());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDto> findById(@PathVariable int id) {
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
+    }
+
 }
