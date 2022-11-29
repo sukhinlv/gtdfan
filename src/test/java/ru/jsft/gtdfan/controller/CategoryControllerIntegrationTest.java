@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-public class CategoryControllerTest extends AbstractControllerTest {
+public class CategoryControllerIntegrationTest extends AbstractControllerTest {
     private static final MatcherFactory.Matcher<CategoryDto> CATEGORY_DTO_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(CategoryDto.class);
     private static final String REST_URL = CategoryController.REST_URL + "/";

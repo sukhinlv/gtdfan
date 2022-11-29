@@ -15,7 +15,7 @@ public class CategoryService {
         this.repository = repository;
     }
 
-    public Iterable<Category> findAllCategories() {
+    public Iterable<Category> findAll() {
         log.info("Get all categories");
         return repository.findAll();
     }

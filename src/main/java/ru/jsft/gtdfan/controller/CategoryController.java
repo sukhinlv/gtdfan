@@ -28,7 +28,7 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> findAllCategories() {
-        return ResponseEntity.ok(StreamSupport.stream(service.findAllCategories().spliterator(), false)
+        return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
                 .map(mapper::toDto)
                 .sorted(Comparator.comparing(CategoryDto::getName))
                 .toList());
