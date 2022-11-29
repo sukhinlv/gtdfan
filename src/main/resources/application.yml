@@ -1,5 +1,4 @@
 spring:
-
   datasource:
     # inmemory db
 #    driver-class-name: org.h2.Driver
@@ -26,6 +25,9 @@ spring:
     getter: none
     setter: none
     is-getter: none
+
+  # Spring Boot color console logging
+  output.ansi.enabled: always
 
 # Logger configuration
 logging:
