@@ -2,6 +2,7 @@ package ru.jsft.gtdfan.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.Table;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
+@Table("users")
 public class User extends BaseEntity {
 
     @NoHtml
