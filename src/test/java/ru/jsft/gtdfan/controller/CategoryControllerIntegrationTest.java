@@ -2,7 +2,6 @@ package ru.jsft.gtdfan.controller;
 
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,7 +32,6 @@ public class CategoryControllerIntegrationTest extends AbstractControllerTest {
     private static final MatcherFactory.Matcher<CategoryDto> CATEGORY_DTO_MATCHER =
             MatcherFactory.usingIgnoringFieldsComparator(CategoryDto.class);
     private static final String REST_URL = CategoryController.REST_URL + "/";
-    private static final CategoryMapper mapper = Mappers.getMapper(CategoryMapper.class);
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +48,7 @@ public class CategoryControllerIntegrationTest extends AbstractControllerTest {
         when(repository.findAll()).thenReturn(categoryList);
 
         List<CategoryDto> dtoList = categoryList.stream()
-                .map(mapper::toDto)
+                .map(CategoryMapper.INSTANCE::toDto)
                 .sorted(Comparator.comparing(CategoryDto::getName))
                 .toList();
 
@@ -63,7 +61,7 @@ public class CategoryControllerIntegrationTest extends AbstractControllerTest {
     @Test
     void shouldGet() throws Exception {
         Category category = Instancio.create(Category.class);
-        CategoryDto categoryDto = mapper.toDto(category);
+        CategoryDto categoryDto = CategoryMapper.INSTANCE.toDto(category);
         when(repository.findById(category.getId())).thenReturn(Optional.of(category));
 
         mockMvc.perform(get(REST_URL + "/" + categoryDto.getId()))

@@ -1,6 +1,5 @@
 package ru.jsft.gtdfan.controller;
 
-import org.mapstruct.factory.Mappers;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import java.util.stream.StreamSupport;
 @RequestMapping(value = CategoryController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryController {
     public static final String REST_URL = "/api/v1/categories";
-    private static final CategoryMapper mapper = Mappers.getMapper(CategoryMapper.class);
     private final CategoryService service;
 
     public CategoryController(CategoryService service) {
@@ -29,14 +27,14 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<CategoryDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
-                .map(mapper::toDto)
+                .map(CategoryMapper.INSTANCE::toDto)
                 .sorted(Comparator.comparing(CategoryDto::getName))
                 .toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> findById(@PathVariable int id) {
-        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
+        return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.findById(id)));
     }
 
 }
