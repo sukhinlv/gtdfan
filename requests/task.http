@@ -1,0 +1,3 @@
+### Get tasks
+GET http://localhost:8090/api/v1/tasks
+Accept: application/json
