@@ -34,21 +34,20 @@ public class Task extends BaseEntity {
     private LocalDateTime edited;
 
     @NotBlank
-    private AggregateReference<Category, Integer> categoryId;
+    @MappedCollection(idColumn = "id", keyColumn = "category_id")
+    private Category category;
 
     @NotBlank
-    private AggregateReference<Priority, Integer> priorityId;
+    @MappedCollection(idColumn = "id", keyColumn = "priority_id")
+    private Priority priority;
+
+    @MappedCollection(idColumn = "id", keyColumn = "supertask_id")
+    private Task supertask;
 
     @NotBlank
-    private AggregateReference<Task, Integer> supertaskId;
+    private AggregateReference<User, Long> userId;
 
     @NotBlank
-    @MappedCollection(idColumn = "id", keyColumn = "user_id")
-    private User user;
-//    @NotBlank
-//    private AggregateReference<Users, Integer> userId;
-
     @MappedCollection(idColumn = "task_id", keyColumn = "id")
-    @NotBlank
     List<Note> notes;
 }
