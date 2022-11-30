@@ -133,6 +133,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <!-- Mind that the order such as mapstruct-processor, lombok, lombok-mapstruct-binding is critical -->
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>

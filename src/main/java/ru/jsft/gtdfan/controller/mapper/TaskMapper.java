@@ -5,7 +5,7 @@ import org.mapstruct.factory.Mappers;
 import ru.jsft.gtdfan.controller.dto.TaskDto;
 import ru.jsft.gtdfan.model.Task;
 
-@Mapper(uses = {AggregateUserMapper.class})
+@Mapper(uses = {AggregateUserLongConverter.class})
 public interface TaskMapper {
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
     Task toEntity(TaskDto destination);
