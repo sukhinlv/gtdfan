@@ -54,4 +54,5 @@ public class NoteService {
         log.info("Update note with id = {}", note.getId());
         note.setId(id);
         return repository.save(note);
-    }}
+    }
+}
