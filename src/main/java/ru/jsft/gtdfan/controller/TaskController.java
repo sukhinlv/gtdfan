@@ -40,8 +40,8 @@ public class TaskController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDto> create(@Valid @RequestBody TaskDto mealDto) {
-        Task created = service.create(TaskMapper.INSTANCE.toEntity(mealDto));
+    public ResponseEntity<TaskDto> create(@Valid @RequestBody TaskDto dto) {
+        Task created = service.create(TaskMapper.INSTANCE.toEntity(dto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -55,7 +55,7 @@ public class TaskController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDto> update(@PathVariable long id, @Valid @RequestBody TaskDto mealDto) {
-        return ResponseEntity.ok(TaskMapper.INSTANCE.toDto(service.update(id, TaskMapper.INSTANCE.toEntity(mealDto))));
+    public ResponseEntity<TaskDto> update(@PathVariable long id, @Valid @RequestBody TaskDto dto) {
+        return ResponseEntity.ok(TaskMapper.INSTANCE.toDto(service.update(id, TaskMapper.INSTANCE.toEntity(dto))));
     }
 }

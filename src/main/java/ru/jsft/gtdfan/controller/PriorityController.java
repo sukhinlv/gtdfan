@@ -40,8 +40,8 @@ public class PriorityController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PriorityDto> create(@Valid @RequestBody PriorityDto mealDto) {
-        Priority created = service.create(PriorityMapper.INSTANCE.toEntity(mealDto));
+    public ResponseEntity<PriorityDto> create(@Valid @RequestBody PriorityDto priorityDto) {
+        Priority created = service.create(PriorityMapper.INSTANCE.toEntity(priorityDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -55,7 +55,7 @@ public class PriorityController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PriorityDto> update(@PathVariable long id, @Valid @RequestBody PriorityDto mealDto) {
-        return ResponseEntity.ok(PriorityMapper.INSTANCE.toDto(service.update(id, PriorityMapper.INSTANCE.toEntity(mealDto))));
+    public ResponseEntity<PriorityDto> update(@PathVariable long id, @Valid @RequestBody PriorityDto priorityDto) {
+        return ResponseEntity.ok(PriorityMapper.INSTANCE.toDto(service.update(id, PriorityMapper.INSTANCE.toEntity(priorityDto))));
     }
 }

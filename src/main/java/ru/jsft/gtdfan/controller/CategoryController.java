@@ -40,8 +40,8 @@ public class CategoryController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto mealDto) {
-        Category created = service.create(CategoryMapper.INSTANCE.toEntity(mealDto));
+    public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto categoryDto) {
+        Category created = service.create(CategoryMapper.INSTANCE.toEntity(categoryDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -55,7 +55,7 @@ public class CategoryController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CategoryDto> update(@PathVariable long id, @Valid @RequestBody CategoryDto mealDto) {
-        return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.update(id, CategoryMapper.INSTANCE.toEntity(mealDto))));
+    public ResponseEntity<CategoryDto> update(@PathVariable long id, @Valid @RequestBody CategoryDto categoryDto) {
+        return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.update(id, CategoryMapper.INSTANCE.toEntity(categoryDto))));
     }
 }

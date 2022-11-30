@@ -41,8 +41,8 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto mealDto) {
-        User created = service.create(UserMapper.INSTANCE.toEntity(mealDto));
+    public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto userDto) {
+        User created = service.create(UserMapper.INSTANCE.toEntity(userDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> update(@PathVariable long id, @Valid @RequestBody UserDto mealDto) {
-        return ResponseEntity.ok(UserMapper.INSTANCE.toDto(service.update(id, UserMapper.INSTANCE.toEntity(mealDto))));
+    public ResponseEntity<UserDto> update(@PathVariable long id, @Valid @RequestBody UserDto userDto) {
+        return ResponseEntity.ok(UserMapper.INSTANCE.toDto(service.update(id, UserMapper.INSTANCE.toEntity(userDto))));
     }
 }

@@ -19,40 +19,40 @@ public class PriorityService {
     }
 
     public Iterable<Priority> findAll() {
-        log.info("Get all notes");
+        log.info("Get all priorities");
         return repository.findAll();
     }
 
     public Priority findById(long id) {
-        log.info("Find note with id = {}", id);
+        log.info("Find priority with id = {}", id);
         return repository.findById(id)
                 .orElseThrow(() -> (new NotFoundException(String.format("Priority with id = %d not found", id))));
     }
 
-    public Priority create(Priority note) {
-        if (!note.isNew()) {
+    public Priority create(Priority priority) {
+        if (!priority.isNew()) {
             throw new IllegalArgumentException("Priority must be new");
         }
 
-        log.info("Create note: {}", note);
-        return repository.save(note);
+        log.info("Create priority: {}", priority);
+        return repository.save(priority);
     }
 
     public void delete(long id) {
-        log.info("Delete note with id = {}", id);
+        log.info("Delete priority with id = {}", id);
         repository.deleteById(id);
     }
 
     @Transactional
-    public Priority update(long id, Priority note) {
-        Optional<Priority> noteOptional = repository.findById(id);
+    public Priority update(long id, Priority priority) {
+        Optional<Priority> priorityOptional = repository.findById(id);
 
-        if (noteOptional.isEmpty()) {
+        if (priorityOptional.isEmpty()) {
             throw new NotFoundException(String.format("Priority with id = %d not found", id));
         }
 
-        log.info("Update note with id = {}", note.getId());
-        note.setId(id);
-        return repository.save(note);
+        log.info("Update priority with id = {}", priority.getId());
+        priority.setId(id);
+        return repository.save(priority);
     }
 }

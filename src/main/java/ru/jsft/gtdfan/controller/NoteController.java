@@ -40,8 +40,8 @@ public class NoteController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NoteDto> create(@Valid @RequestBody NoteDto mealDto) {
-        Note created = service.create(NoteMapper.INSTANCE.toEntity(mealDto));
+    public ResponseEntity<NoteDto> create(@Valid @RequestBody NoteDto noteDto) {
+        Note created = service.create(NoteMapper.INSTANCE.toEntity(noteDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -55,7 +55,7 @@ public class NoteController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NoteDto> update(@PathVariable long id, @Valid @RequestBody NoteDto mealDto) {
-        return ResponseEntity.ok(NoteMapper.INSTANCE.toDto(service.update(id, NoteMapper.INSTANCE.toEntity(mealDto))));
+    public ResponseEntity<NoteDto> update(@PathVariable long id, @Valid @RequestBody NoteDto noteDto) {
+        return ResponseEntity.ok(NoteMapper.INSTANCE.toDto(service.update(id, NoteMapper.INSTANCE.toEntity(noteDto))));
     }
 }

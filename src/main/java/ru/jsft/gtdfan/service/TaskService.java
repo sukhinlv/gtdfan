@@ -19,40 +19,40 @@ public class TaskService {
     }
 
     public Iterable<Task> findAll() {
-        log.info("Get all notes");
+        log.info("Get all tasks");
         return repository.findAll();
     }
 
     public Task findById(long id) {
-        log.info("Find note with id = {}", id);
+        log.info("Find task with id = {}", id);
         return repository.findById(id)
                 .orElseThrow(() -> (new NotFoundException(String.format("Task with id = %d not found", id))));
     }
 
-    public Task create(Task note) {
-        if (!note.isNew()) {
+    public Task create(Task task) {
+        if (!task.isNew()) {
             throw new IllegalArgumentException("Task must be new");
         }
 
-        log.info("Create note: {}", note);
-        return repository.save(note);
+        log.info("Create task: {}", task);
+        return repository.save(task);
     }
 
     public void delete(long id) {
-        log.info("Delete note with id = {}", id);
+        log.info("Delete task with id = {}", id);
         repository.deleteById(id);
     }
 
     @Transactional
-    public Task update(long id, Task note) {
-        Optional<Task> noteOptional = repository.findById(id);
+    public Task update(long id, Task task) {
+        Optional<Task> taskOptional = repository.findById(id);
 
-        if (noteOptional.isEmpty()) {
+        if (taskOptional.isEmpty()) {
             throw new NotFoundException(String.format("Task with id = %d not found", id));
         }
 
-        log.info("Update note with id = {}", note.getId());
-        note.setId(id);
-        return repository.save(note);
+        log.info("Update task with id = {}", task.getId());
+        task.setId(id);
+        return repository.save(task);
     }
 }
