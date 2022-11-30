@@ -9,12 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.util.NestedServletException;
 import ru.jsft.gtdfan.AbstractControllerTest;
-import ru.jsft.gtdfan.controller.CategoryController;
-import ru.jsft.gtdfan.controller.dto.CategoryDto;
-import ru.jsft.gtdfan.controller.mapper.CategoryMapper;
+import ru.jsft.gtdfan.controller.TaskController;
+import ru.jsft.gtdfan.controller.dto.TaskDto;
+import ru.jsft.gtdfan.controller.mapper.TaskMapper;
 import ru.jsft.gtdfan.error.NotFoundException;
-import ru.jsft.gtdfan.model.Category;
-import ru.jsft.gtdfan.repository.CategoryRepository;
+import ru.jsft.gtdfan.model.Task;
+import ru.jsft.gtdfan.repository.TaskRepository;
 import ru.jsft.gtdfan.util.MatcherFactory;
 
 import java.util.Comparator;
@@ -29,28 +29,28 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-public class CategoryControllerIntegrationTest extends AbstractControllerTest {
-    private static final MatcherFactory.Matcher<CategoryDto> CATEGORY_DTO_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(CategoryDto.class);
-    private static final String REST_URL = CategoryController.REST_URL + "/";
+public class TaskControllerIntegrationTest extends AbstractControllerTest {
+    private static final MatcherFactory.Matcher<TaskDto> CATEGORY_DTO_MATCHER =
+            MatcherFactory.usingIgnoringFieldsComparator(TaskDto.class);
+    private static final String REST_URL = TaskController.REST_URL + "/";
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CategoryRepository repository;
+    private TaskRepository repository;
 
     @Test
     void shouldGetAll() throws Exception {
-        List<Category> categoryList = List.of(
-                Instancio.create(Category.class),
-                Instancio.create(Category.class)
+        List<Task> categoryList = List.of(
+                Instancio.create(Task.class),
+                Instancio.create(Task.class)
         );
         when(repository.findAll()).thenReturn(categoryList);
 
-        List<CategoryDto> dtoList = categoryList.stream()
-                .map(CategoryMapper.INSTANCE::toDto)
-                .sorted(Comparator.comparing(CategoryDto::getName))
+        List<TaskDto> dtoList = categoryList.stream()
+                .map(TaskMapper.INSTANCE::toDto)
+                .sorted(Comparator.comparing(TaskDto::getName))
                 .toList();
 
         mockMvc.perform(get(REST_URL))
@@ -61,8 +61,8 @@ public class CategoryControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     void shouldGet() throws Exception {
-        Category category = Instancio.create(Category.class);
-        CategoryDto categoryDto = CategoryMapper.INSTANCE.toDto(category);
+        Task category = Instancio.create(Task.class);
+        TaskDto categoryDto = TaskMapper.INSTANCE.toDto(category);
         when(repository.findById(category.getId())).thenReturn(Optional.of(category));
 
         mockMvc.perform(get(REST_URL + "/" + categoryDto.getId()))
@@ -82,6 +82,6 @@ public class CategoryControllerIntegrationTest extends AbstractControllerTest {
         Throwable cause = parentException.getCause();
         assertThat(cause)
                 .isInstanceOf(NotFoundException.class)
-                .hasMessageContaining(String.format("Category with id = %d not found", 1L));
+                .hasMessageContaining(String.format("Task with id = %d not found", 1L));
     }
 }

@@ -1,23 +1,24 @@
-package ru.jsft.gtdfan.controller.json;
+package ru.jsft.gtdfan.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-@Component
+@UtilityClass
 public class JsonUtil {
+    private static ObjectMapper mapper;
 
-    private final ObjectMapper mapper;
-
-    public JsonUtil(ObjectMapper mapper) {
-        this.mapper = mapper;
+    public static void setMapper(ObjectMapper mapper) {
+        JsonUtil.mapper = mapper;
     }
 
-    public <T> List<T> readValues(String json, Class<T> clazz) {
+    public static <T> List<T> readValues(String json, Class<T> clazz) {
         ObjectReader reader = mapper.readerFor(clazz);
         try {
             return reader.<T>readValues(json).readAll();
@@ -26,7 +27,7 @@ public class JsonUtil {
         }
     }
 
-    public <T> T readValue(String json, Class<T> clazz) {
+    public static <T> T readValue(String json, Class<T> clazz) {
         try {
             return mapper.readValue(json, clazz);
         } catch (IOException e) {
@@ -34,11 +35,21 @@ public class JsonUtil {
         }
     }
 
-    public <T> String writeValue(T obj) {
+    public static <T> String writeValue(T obj) {
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Invalid write to JSON:\n'" + obj + "'", e);
         }
+    }
+
+    public static <T> String writeAdditionProps(T obj, String addName, Object addValue) {
+        return writeAdditionProps(obj, Map.of(addName, addValue));
+    }
+
+    public static <T> String writeAdditionProps(T obj, Map<String, Object> addProps) {
+        Map<String, Object> map = mapper.convertValue(obj, new TypeReference<>() {});
+        map.putAll(addProps);
+        return writeValue(map);
     }
 }
