@@ -50,6 +50,6 @@ public class Task extends BaseEntity {
     @NotNull
     private AggregateReference<User, Long> userId;
 
-    @MappedCollection(idColumn = "task_id")
+    @MappedCollection(idColumn = "TASK_ID", keyColumn = "UPDATED")
     List<Note> notes;
 }

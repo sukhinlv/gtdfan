@@ -32,7 +32,7 @@ CREATE TABLE task
     name         varchar   NOT NULL,
     until        timestamp,
     link         varchar,
-    created      timestamp DEFAULT now(),
+    created      timestamp NOT NULL DEFAULT now(),
     updated      timestamp NOT NULL,
     category_id  integer   NOT NULL,
     priority_id  integer   NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE note
 (
     id        SERIAL PRIMARY KEY,
     task_id   integer   NOT NULL,
-    updated   timestamp NOT NULL DEFAULT now(),
+    updated   timestamp NOT NULL,
     note      varchar   NOT NULL,
     FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE
 );

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -19,6 +20,7 @@ import ru.jsft.gtdfan.repository.TaskRepository;
 import ru.jsft.gtdfan.util.JsonUtil;
 import ru.jsft.gtdfan.util.MatcherFactory;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -90,8 +92,13 @@ public class TaskControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     void shouldCreate() throws Exception {
-        Task expected = Instancio.create(Task.class);
-        expected.setId(null);
+        Task expected = Task.builder()
+                .name("Some test task")
+                .until(LocalDateTime.now())
+                .categoryId(AggregateReference.to(1L))
+                .priorityId(AggregateReference.to(1L))
+                .userId(AggregateReference.to(1L))
+                .build();
 
         MvcResult mvcResult = mockMvc.perform(post(REST_URL)
                         .contentType(MediaType.APPLICATION_JSON)

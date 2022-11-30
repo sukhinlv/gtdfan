@@ -12,27 +12,14 @@ Content-Type: application/json
 
 {
   "completed": false,
-  "name": "Проверь обновление 1С (еженедельно)",
+  "name": "Проверь обновление 1С (еженедельно) 111",
   "until": null,
   "link": null,
-  "created": "2022-11-30T11:24:36.996384",
-  "edited": "2022-11-30T11:24:36.996384",
-  "category": {
-    "id": 1,
-    "name": "1 - Today"
-  },
-  "priority": {
-    "id": 1,
-    "name": "High",
-    "level": 0
-  },
-  "supertask": null,
+  "created": "2022-11-30T22:26:31.969031",
+  "updated": "2022-11-30T22:26:31.969031",
+  "categoryId": 1,
+  "priorityId": 1,
+  "supertaskId": null,
   "userId": 1,
-  "notes": [
-    {
-      "id": 1,
-      "edited": "2022-11-30T11:24:37.002743",
-      "noteText": "Note for 1C update"
-    }
-  ]
+  "notes": []
 }

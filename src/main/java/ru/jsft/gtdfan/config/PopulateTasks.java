@@ -4,7 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
-import ru.jsft.gtdfan.model.*;
+import ru.jsft.gtdfan.model.Category;
+import ru.jsft.gtdfan.model.Priority;
+import ru.jsft.gtdfan.model.Task;
+import ru.jsft.gtdfan.model.User;
 import ru.jsft.gtdfan.repository.*;
 
 import java.time.LocalDateTime;
@@ -66,7 +69,7 @@ public class PopulateTasks {
                     Task.builder().name("Учебное видео: Sasgis, Ozi, распечатка. Полезные ресурсы.")
                             .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
                     Task.builder().name("Флешка с музыкой")
-                            .until(LocalDateTime.of(2022,11,15,0, 0))
+                            .until(LocalDateTime.of(2022, 11, 15, 0, 0))
                             .categoryId(to(today.getId())).priorityId(to(low.getId())).userId(to(userLeonid.getId())).build(),
                     Task.builder().name("Видео с конференции JPoint...")
                             .link("https://www.youtube.com/playlist?list=PLVe-2wcL84b8OCdXV_tqP8YrMIlgB_BER")
@@ -76,14 +79,16 @@ public class PopulateTasks {
                     Task.builder().name("Some task by Natasha")
                             .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId())).build(),
                     Task.builder().name("Some holdover task by Natasha")
-                            .until(LocalDateTime.of(2021,1,1,0,0))
+                            .until(LocalDateTime.of(2021, 1, 1, 0, 0))
                             .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build()
             ));
-
-            noteRepository.saveAll(List.of(
-                    Note.builder().taskId(1L).note("Note for 1C update").build(),
-                    Note.builder().taskId(1L).note("Another one note for update").build()
-            ));
+//
+//            Task task = taskRepository.findById(1L).orElseThrow();
+//            task.getNotes().addAll(List.of(
+//                    Note.builder().taskId(task.getId()).note("Note for 1C update").build(),
+//                    Note.builder().taskId(task.getId()).note("Another one note for update").build()
+//            ));
+//            taskRepository.save(task);
         };
     }
 }

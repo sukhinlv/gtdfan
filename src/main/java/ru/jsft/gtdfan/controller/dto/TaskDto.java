@@ -34,12 +34,12 @@ public class TaskDto extends BaseEntity {
     private LocalDateTime updated;
 
     @NotNull
-    private CategoryDto categoryDto;
+    private Long categoryId;
 
     @NotNull
-    private PriorityDto priorityDto;
+    private Long priorityId;
 
-    private TaskDto supertaskDto;
+    private Long supertaskId;
 
     @NotNull
     private Long userId;
