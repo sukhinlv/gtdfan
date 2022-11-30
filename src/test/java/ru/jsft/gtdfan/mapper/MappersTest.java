@@ -16,17 +16,26 @@ public class MappersTest {
         assertThat(CategoryMapper.INSTANCE.toEntity(CategoryMapper.INSTANCE.toDto(category)))
                 .isNotNull()
                 .usingRecursiveComparison().isEqualTo(category);
+    }
 
+    @Test
+    void noteMapper() {
         Note note = Instancio.create(Note.class);
         assertThat(NoteMapper.INSTANCE.toEntity(NoteMapper.INSTANCE.toDto(note)))
                 .isNotNull()
-                .usingRecursiveComparison().isEqualTo(note);
+                .usingRecursiveComparison().ignoringFields("updated").isEqualTo(note);
+    }
 
+    @Test
+    void priorityMapper() {
         Priority priority = Instancio.create(Priority.class);
         assertThat(PriorityMapper.INSTANCE.toEntity(PriorityMapper.INSTANCE.toDto(priority)))
                 .isNotNull()
                 .usingRecursiveComparison().isEqualTo(priority);
+    }
 
+    @Test
+    void taskMapper() {
         // check with userId == null
         Task task = Instancio.create(Task.class);
         assertThat(TaskMapper.INSTANCE.toEntity(TaskMapper.INSTANCE.toDto(task)))
@@ -37,10 +46,13 @@ public class MappersTest {
         assertThat(TaskMapper.INSTANCE.toEntity(TaskMapper.INSTANCE.toDto(task)))
                 .isNotNull()
                 .usingRecursiveComparison().ignoringFields("created", "updated").isEqualTo(task);
+    }
 
+    @Test
+    void userMapper() {
         User user = Instancio.create(User.class);
         assertThat(UserMapper.INSTANCE.toEntity(UserMapper.INSTANCE.toDto(user)))
                 .isNotNull()
-                .usingRecursiveComparison().isEqualTo(user);
+                .usingRecursiveComparison().ignoringFields("created").isEqualTo(user);
     }
 }

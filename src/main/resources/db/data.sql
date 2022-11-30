@@ -18,7 +18,7 @@ INSERT INTO category(id, name)
 VALUES (1, '1 - Today'),
        (2, '2 - Week');
 
-INSERT INTO task(id, name, until, link, edited, category_id, priority_id, supertask_id, user_id)
+INSERT INTO task(id, name, until, link, updated, category_id, priority_id, supertask_id, user_id)
 VALUES (1, 'Проверь обновление 1С (еженедельно)', null, null, now(), 1, 1, null, 1),
        (2, 'Орион: сбой резервного копирования!', null, null, now(), 1, 1, null, 1),
        (3, 'Воронение стали', null, 'https://youtu.be/1GKftAi4gXo', now(), 1, 2, null, 1),

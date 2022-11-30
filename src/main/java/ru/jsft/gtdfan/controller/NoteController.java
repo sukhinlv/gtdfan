@@ -30,7 +30,7 @@ public class NoteController {
     public ResponseEntity<List<NoteDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
                 .map(NoteMapper.INSTANCE::toDto)
-                .sorted(Comparator.comparing(NoteDto::getNoteText))
+                .sorted(Comparator.comparing(NoteDto::getNote))
                 .toList());
     }
 

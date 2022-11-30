@@ -1,3 +1,38 @@
-### Get tasks
+### Get all tasks
 GET http://localhost:8090/api/v1/tasks
 Accept: application/json
+
+### Get task by id
+GET http://localhost:8090/api/v1/tasks/1
+Accept: application/json
+
+### Create task
+POST http://localhost:8090/api/v1/tasks
+Content-Type: application/json
+
+{
+  "completed": false,
+  "name": "Проверь обновление 1С (еженедельно)",
+  "until": null,
+  "link": null,
+  "created": "2022-11-30T11:24:36.996384",
+  "edited": "2022-11-30T11:24:36.996384",
+  "category": {
+    "id": 1,
+    "name": "1 - Today"
+  },
+  "priority": {
+    "id": 1,
+    "name": "High",
+    "level": 0
+  },
+  "supertask": null,
+  "userId": 1,
+  "notes": [
+    {
+      "id": 1,
+      "edited": "2022-11-30T11:24:37.002743",
+      "noteText": "Note for 1C update"
+    }
+  ]
+}

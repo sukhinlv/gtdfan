@@ -30,26 +30,25 @@ public class Task extends BaseEntity {
     @NoHtml
     private String link;
 
+    @NotNull
     @CreatedDate
     private LocalDateTime created;
 
+    @NotNull
     @LastModifiedDate
     private LocalDateTime updated;
 
     @NotNull
-    @MappedCollection(idColumn = "id", keyColumn = "category_id")
-    private Category category;
+    private AggregateReference<Category, Long> categoryId;
 
     @NotNull
-    @MappedCollection(idColumn = "id", keyColumn = "priority_id")
-    private Priority priority;
+    private AggregateReference<Priority, Long> priorityId;
 
-    @MappedCollection(idColumn = "id", keyColumn = "supertask_id")
-    private Task supertask;
+    private AggregateReference<Task, Long> supertaskId;
 
     @NotNull
     private AggregateReference<User, Long> userId;
 
-    @MappedCollection(idColumn = "task_id", keyColumn = "id")
+    @MappedCollection(idColumn = "task_id")
     List<Note> notes;
 }

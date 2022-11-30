@@ -31,7 +31,7 @@ public class UserDto extends BaseEntity {
     private String password;
 
     @NotNull
-    private LocalDateTime registered;
+    private LocalDateTime created;
 
     private boolean enabled = true;
 }

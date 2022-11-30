@@ -1,5 +1,6 @@
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
+-- uncomment for postgresql db
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
 
 CREATE TABLE category
 (
@@ -20,7 +21,7 @@ CREATE TABLE users
     name       varchar        NOT NULL,
     email      varchar UNIQUE NOT NULL,
     password   varchar        NOT NULL,
-    registered timestamp      NOT NULL DEFAULT now(),
+    created    timestamp      NOT NULL DEFAULT now(),
     enabled    bool                    DEFAULT true
 );
 
@@ -32,7 +33,7 @@ CREATE TABLE task
     until        timestamp,
     link         varchar,
     created      timestamp DEFAULT now(),
-    updated       timestamp NOT NULL,
+    updated      timestamp NOT NULL,
     category_id  integer   NOT NULL,
     priority_id  integer   NOT NULL,
     supertask_id integer,
@@ -48,8 +49,8 @@ CREATE TABLE note
 (
     id        SERIAL PRIMARY KEY,
     task_id   integer   NOT NULL,
-    edited    timestamp NOT NULL DEFAULT now(),
-    note_text varchar   NOT NULL,
+    updated   timestamp NOT NULL DEFAULT now(),
+    note      varchar   NOT NULL,
     FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE
 );
-CREATE INDEX edited ON note (edited);
+CREATE INDEX updated_index ON note (updated);

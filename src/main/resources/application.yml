@@ -1,16 +1,16 @@
 spring:
   datasource:
     # inmemory db
-#    driver-class-name: org.h2.Driver
-#    url: jdbc:h2:mem:gtdfan
-#    username: sa
-#    password:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:gtdfan
+    username: sa
+    password:
 
     # postgresql db
-      driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5433/gtdfan
-      username: user
-      password: password
+#      driver-class-name: org.postgresql.Driver
+#      url: jdbc:postgresql://localhost:5433/gtdfan
+#      username: user
+#      password: password
 
   sql:
     init:

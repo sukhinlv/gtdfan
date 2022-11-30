@@ -1,6 +1,7 @@
 package ru.jsft.gtdfan.model;
 
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
@@ -15,9 +16,13 @@ import java.time.LocalDateTime;
 public class Note extends BaseEntity {
 
     @NotNull
-    private LocalDateTime edited = LocalDateTime.now();
+    private Long taskId;
+
+    @NotNull
+    @LastModifiedDate
+    private LocalDateTime updated;
 
     @NoHtml
     @NotBlank
-    private String noteText;
+    private String note;
 }

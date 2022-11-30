@@ -6,12 +6,21 @@ import org.mapstruct.factory.Mappers;
 import ru.jsft.gtdfan.controller.dto.TaskDto;
 import ru.jsft.gtdfan.model.Task;
 
-@Mapper(uses = {AggregateUserLongConverter.class})
+@Mapper(uses = {
+        AggregateCategoryLongConverter.class,
+        AggregatePriorityLongConverter.class,
+        AggregateTaskLongConverter.class,
+        AggregateUserLongConverter.class
+})
 public interface TaskMapper {
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
 
     @Mapping(ignore = true, target = "created")
     @Mapping(ignore = true, target = "updated")
     Task toEntity(TaskDto destination);
+
+    @Mapping(source = "categoryId", target = "categoryDto")
+    @Mapping(source = "priorityId", target = "priorityDto")
+    @Mapping(source = "supertaskId", target = "supertaskDto")
     TaskDto toDto(Task source);
 }

@@ -16,9 +16,12 @@ import java.time.LocalDateTime;
 public class NoteDto extends BaseEntity {
 
     @NotNull
-    private LocalDateTime edited = LocalDateTime.now();
+    private Long taskId;
+
+    @NotNull
+    private LocalDateTime updated = LocalDateTime.now();
 
     @NoHtml
     @NotBlank
-    private String noteText;
+    private String note;
 }
