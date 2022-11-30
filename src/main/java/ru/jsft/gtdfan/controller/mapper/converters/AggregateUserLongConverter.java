@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.controller.mapper;
+package ru.jsft.gtdfan.controller.mapper.converters;
 
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import ru.jsft.gtdfan.model.User;

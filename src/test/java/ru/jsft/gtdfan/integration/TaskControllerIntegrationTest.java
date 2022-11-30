@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.util.NestedServletException;
 import ru.jsft.gtdfan.AbstractControllerTest;
 import ru.jsft.gtdfan.controller.TaskController;
@@ -15,6 +16,7 @@ import ru.jsft.gtdfan.controller.mapper.TaskMapper;
 import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.repository.TaskRepository;
+import ru.jsft.gtdfan.util.JsonUtil;
 import ru.jsft.gtdfan.util.MatcherFactory;
 
 import java.util.Comparator;
@@ -25,6 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,13 +45,13 @@ public class TaskControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     void shouldGetAll() throws Exception {
-        List<Task> categoryList = List.of(
+        List<Task> taskList = List.of(
                 Instancio.create(Task.class),
                 Instancio.create(Task.class)
         );
-        when(repository.findAll()).thenReturn(categoryList);
+        when(repository.findAll()).thenReturn(taskList);
 
-        List<TaskDto> dtoList = categoryList.stream()
+        List<TaskDto> dtoList = taskList.stream()
                 .map(TaskMapper.INSTANCE::toDto)
                 .sorted(Comparator.comparing(TaskDto::getName))
                 .toList();
@@ -61,14 +64,14 @@ public class TaskControllerIntegrationTest extends AbstractControllerTest {
 
     @Test
     void shouldGet() throws Exception {
-        Task category = Instancio.create(Task.class);
-        TaskDto categoryDto = TaskMapper.INSTANCE.toDto(category);
-        when(repository.findById(category.getId())).thenReturn(Optional.of(category));
+        Task task = Instancio.create(Task.class);
+        TaskDto taskDto = TaskMapper.INSTANCE.toDto(task);
+        when(repository.findById(task.getId())).thenReturn(Optional.of(task));
 
-        mockMvc.perform(get(REST_URL + "/" + categoryDto.getId()))
+        mockMvc.perform(get(REST_URL + "/" + taskDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(CATEGORY_DTO_MATCHER.contentJson(categoryDto));
+                .andExpect(CATEGORY_DTO_MATCHER.contentJson(taskDto));
     }
 
     @Test
@@ -83,5 +86,22 @@ public class TaskControllerIntegrationTest extends AbstractControllerTest {
         assertThat(cause)
                 .isInstanceOf(NotFoundException.class)
                 .hasMessageContaining(String.format("Task with id = %d not found", 1L));
+    }
+
+    @Test
+    void shouldCreate() throws Exception {
+        Task expected = Instancio.create(Task.class);
+        expected.setId(null);
+
+        MvcResult mvcResult = mockMvc.perform(post(REST_URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(JsonUtil.writeValue(expected)))
+                .andExpect(status().isCreated())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        Task actual = JsonUtil.readValue(mvcResult.getResponse().getContentAsString(), Task.class);
+        expected.setId(actual.getId());
+
+        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }

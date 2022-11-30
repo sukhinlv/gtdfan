@@ -4,6 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.jsft.gtdfan.controller.dto.TaskDto;
+import ru.jsft.gtdfan.controller.mapper.converters.AggregateCategoryLongConverter;
+import ru.jsft.gtdfan.controller.mapper.converters.AggregatePriorityLongConverter;
+import ru.jsft.gtdfan.controller.mapper.converters.AggregateTaskLongConverter;
+import ru.jsft.gtdfan.controller.mapper.converters.AggregateUserLongConverter;
 import ru.jsft.gtdfan.model.Task;
 
 @Mapper(uses = {

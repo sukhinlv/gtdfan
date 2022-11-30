@@ -3,16 +3,14 @@ package ru.jsft.gtdfan.config;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.transaction.annotation.Transactional;
-import ru.jsft.gtdfan.model.Category;
-import ru.jsft.gtdfan.model.Priority;
-import ru.jsft.gtdfan.model.Task;
-import ru.jsft.gtdfan.model.User;
+import ru.jsft.gtdfan.model.*;
 import ru.jsft.gtdfan.repository.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.springframework.data.jdbc.core.mapping.AggregateReference.to;
 
 @Configuration
 public class PopulateTasks {
@@ -39,35 +37,6 @@ public class PopulateTasks {
     @Bean
     @Transactional
     CommandLineRunner commandLineRunner() {
-//        INSERT INTO users(id, name, email, password)
-//        VALUES (1, 'Leonid', 'leva1981@yandex.ru', 'admin'),
-//                (2, 'Natasha', 'natasuhina@yandex.ru', 'user');
-//
-//        INSERT INTO priority(id, name, level)
-//        VALUES (1, 'High', 0),
-//                (2, 'Middle', 5),
-//        (3, 'Low', 10),
-//        (4, 'none', 1000);
-//
-//        INSERT INTO category(id, name)
-//        VALUES (1, '1 - Today'),
-//                (2, '2 - Week');
-//
-//        INSERT INTO task(id, name, until, link, edited, category_id, priority_id, supertask_id, user_id)
-//        VALUES (1, 'Проверь обновление 1С (еженедельно)', null, null, now(), 1, 1, null, 1),
-//                (2, 'Орион: сбой резервного копирования!', null, null, now(), 1, 1, null, 1),
-//        (3, 'Воронение стали', null, 'https://youtu.be/1GKftAi4gXo', now(), 1, 2, null, 1),
-//        (4, 'Учебное видео: Sasgis, Ozi, распечатка. Полезные ресурсы.', null, null, now(), 1, 2, null, 1),
-//        (5, 'Флешка с музыкой', '2022-11-15', null, now(), 1, 3, null, 1),
-//        (6, 'Видео с конференции JPoint...', null, 'https://www.youtube.com/playlist?list=PLVe-2wcL84b8OCdXV_tqP8YrMIlgB_BER', now(), 1, 4, null, 1),
-//        (7, 'Some holdover task', '2023-06-01', null, now(), 2, 2, null, 1),
-//        (8, 'Subtask for 1C update', null, null, now(), 1, 4, 1, 1),
-//        (9, 'Some task by Natasha', null, null, now(), 1, 2, null, 2),
-//        (10, 'Some holdover task by Natasha', '2024-01-01', null, now(), 2, 2, null, 2);
-//
-//        INSERT INTO note(id, task_id, note_text)
-//        VALUES (1, 1, 'Note for 1C update'),
-//                (2, 2, 'Another one note for update ')
         return args -> {
             User userLeonid = new User("Leonid", "leva@ya.ru", "admin", LocalDateTime.now(), true);
             User userNatasha = new User("Natasha", "ns@ya.ru", "user", LocalDateTime.now(), true);
@@ -84,18 +53,37 @@ public class PopulateTasks {
             categoryRepository.saveAll(List.of(today, week));
 
             taskRepository.saveAll(List.of(
-                    new Task(false,
-                            "Проверь обновление 1С (еженедельно)",
-                            null,
-                            null,
-                            LocalDateTime.now(),
-                            LocalDateTime.now(),
-                            today,
-                            high,
-                            null,
-                            AggregateReference.to(userLeonid.getId()),
-                            null
-            )));
+                    Task.builder().name("Проверь обновление 1С (еженедельно)")
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Subtask for 1C update")
+                            .supertaskId(to(1L))
+                            .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Орион: сбой резервного копирования!")
+                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Воронение стали")
+                            .link("https://youtu.be/1GKftAi4gXo")
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Учебное видео: Sasgis, Ozi, распечатка. Полезные ресурсы.")
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Флешка с музыкой")
+                            .until(LocalDateTime.of(2022,11,15,0, 0))
+                            .categoryId(to(today.getId())).priorityId(to(low.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Видео с конференции JPoint...")
+                            .link("https://www.youtube.com/playlist?list=PLVe-2wcL84b8OCdXV_tqP8YrMIlgB_BER")
+                            .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Some holdover task")
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build(),
+                    Task.builder().name("Some task by Natasha")
+                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId())).build(),
+                    Task.builder().name("Some holdover task by Natasha")
+                            .until(LocalDateTime.of(2021,1,1,0,0))
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build()
+            ));
+
+            noteRepository.saveAll(List.of(
+                    Note.builder().taskId(1L).note("Note for 1C update").build(),
+                    Note.builder().taskId(1L).note("Another one note for update").build()
+            ));
         };
     }
 }
