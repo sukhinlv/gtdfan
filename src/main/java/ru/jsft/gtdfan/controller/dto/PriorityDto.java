@@ -5,6 +5,7 @@ import ru.jsft.gtdfan.model.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -17,6 +18,6 @@ public class PriorityDto extends BaseEntity {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     private Integer level;
 }

@@ -1,10 +1,11 @@
 package ru.jsft.gtdfan.controller.dto;
 
 import lombok.*;
-import ru.jsft.gtdfan.model.*;
+import ru.jsft.gtdfan.model.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,23 +27,22 @@ public class TaskDto extends BaseEntity {
     @NoHtml
     private String link;
 
-    @NotBlank
+    @NotNull
     private LocalDateTime created;
 
-    @NotBlank
-    private LocalDateTime edited;
+    @NotNull
+    private LocalDateTime updated;
 
-    @NotBlank
-    private Category category;
+    @NotNull
+    private CategoryDto category;
 
-    @NotBlank
-    private Priority priority;
+    @NotNull
+    private PriorityDto priority;
 
-    private Task supertask;
+    private TaskDto supertask;
 
-    @NotBlank
+    @NotNull
     private Long userId;
 
-    @NotBlank
-    List<Note> notes;
+    List<NoteDto> notes;
 }

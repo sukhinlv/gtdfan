@@ -30,8 +30,7 @@ public class User extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotBlank
-    private LocalDateTime registered = LocalDateTime.now();
+    private LocalDateTime registered;
 
-    private boolean enabled = true;
+    private boolean enabled;
 }

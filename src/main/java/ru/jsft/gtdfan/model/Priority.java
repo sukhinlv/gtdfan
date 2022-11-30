@@ -4,6 +4,7 @@ import lombok.*;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -16,6 +17,6 @@ public class Priority extends BaseEntity {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     private Integer level;
 }

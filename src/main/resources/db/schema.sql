@@ -32,7 +32,7 @@ CREATE TABLE task
     until        timestamp,
     link         varchar,
     created      timestamp DEFAULT now(),
-    edited       timestamp NOT NULL,
+    updated       timestamp NOT NULL,
     category_id  integer   NOT NULL,
     priority_id  integer   NOT NULL,
     supertask_id integer,

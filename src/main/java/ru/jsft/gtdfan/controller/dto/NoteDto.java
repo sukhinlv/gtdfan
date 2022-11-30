@@ -5,6 +5,7 @@ import ru.jsft.gtdfan.model.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class NoteDto extends BaseEntity {
 
-    @NotBlank
+    @NotNull
     private LocalDateTime edited = LocalDateTime.now();
 
     @NoHtml

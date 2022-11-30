@@ -7,6 +7,7 @@ import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
@@ -29,8 +30,8 @@ public class UserDto extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotBlank
-    private LocalDateTime registered = LocalDateTime.now();
+    @NotNull
+    private LocalDateTime registered;
 
     private boolean enabled = true;
 }

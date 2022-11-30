@@ -4,6 +4,7 @@ import lombok.*;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 public class Note extends BaseEntity {
 
-    @NotBlank
+    @NotNull
     private LocalDateTime edited = LocalDateTime.now();
 
     @NoHtml

@@ -1,11 +1,14 @@
 package ru.jsft.gtdfan.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,27 +30,26 @@ public class Task extends BaseEntity {
     @NoHtml
     private String link;
 
-    @NotBlank
+    @CreatedDate
     private LocalDateTime created;
 
-    @NotBlank
-    private LocalDateTime edited;
+    @LastModifiedDate
+    private LocalDateTime updated;
 
-    @NotBlank
+    @NotNull
     @MappedCollection(idColumn = "id", keyColumn = "category_id")
     private Category category;
 
-    @NotBlank
+    @NotNull
     @MappedCollection(idColumn = "id", keyColumn = "priority_id")
     private Priority priority;
 
     @MappedCollection(idColumn = "id", keyColumn = "supertask_id")
     private Task supertask;
 
-    @NotBlank
+    @NotNull
     private AggregateReference<User, Long> userId;
 
-    @NotBlank
     @MappedCollection(idColumn = "task_id", keyColumn = "id")
     List<Note> notes;
 }
