@@ -3,7 +3,7 @@ GET http://localhost:8090/api/v1/tasks
 Accept: application/json
 
 ### Get task by id
-GET http://localhost:8090/api/v1/tasks/1
+GET http://localhost:8090/api/v1/tasks/19
 Accept: application/json
 
 ### Create task
@@ -12,14 +12,11 @@ Content-Type: application/json
 
 {
   "completed": false,
-  "name": "Проверь обновление 1С (еженедельно) 111",
-  "until": null,
-  "link": null,
-  "created": "2022-11-30T22:26:31.969031",
-  "updated": "2022-11-30T22:26:31.969031",
+  "name": "Проверь обновление 1С (еженедельно)",
+  "created": "2022-12-01T09:53:27.076264",
+  "updated": "2022-12-01T09:53:27.076264",
   "categoryId": 1,
   "priorityId": 1,
   "supertaskId": null,
-  "userId": 1,
-  "notes": []
+  "userId": 1
 }
