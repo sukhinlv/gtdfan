@@ -1,7 +1,6 @@
 package ru.jsft.gtdfan.controller.dto;
 
 import lombok.*;
-import ru.jsft.gtdfan.model.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
@@ -13,13 +12,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class NoteDto extends BaseEntity {
+public class NoteDto extends AbstractDto {
 
     @NotNull
     private Long taskId;
 
     @NotNull
-    private LocalDateTime updated = LocalDateTime.now();
+    private LocalDateTime updated;
 
     @NoHtml
     @NotBlank

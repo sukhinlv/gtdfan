@@ -1,7 +1,6 @@
 package ru.jsft.gtdfan.controller.dto;
 
 import lombok.*;
-import ru.jsft.gtdfan.model.BaseEntity;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
@@ -14,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class TaskDto extends BaseEntity {
+public class TaskDto extends AbstractDto {
 
     private boolean completed;
 
@@ -27,10 +26,8 @@ public class TaskDto extends BaseEntity {
     @NoHtml
     private String link;
 
-    @NotNull
     private LocalDateTime created;
 
-    @NotNull
     private LocalDateTime updated;
 
     @NotNull
