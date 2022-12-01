@@ -1,10 +1,12 @@
 package ru.jsft.gtdfan.model;
 
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.util.ProxyUtils;
 
 import java.util.Objects;
 
+@SuperBuilder
 public abstract class BaseEntity {
     @Id
     protected Long id;

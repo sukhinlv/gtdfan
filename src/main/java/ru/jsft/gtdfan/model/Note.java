@@ -1,6 +1,7 @@
 package ru.jsft.gtdfan.model;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.LastModifiedDate;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
