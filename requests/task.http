@@ -12,11 +12,8 @@ Content-Type: application/json
 
 {
   "completed": false,
-  "name": "Проверь обновление 1С (еженедельно)",
-  "created": "2022-12-01T09:53:27.076264",
-  "updated": "2022-12-01T09:53:27.076264",
+  "name": "Новая задача",
   "categoryId": 1,
   "priorityId": 1,
-  "supertaskId": null,
   "userId": 1
 }
