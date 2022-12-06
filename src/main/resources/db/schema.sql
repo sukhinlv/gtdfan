@@ -21,7 +21,7 @@ CREATE TABLE users
     name       varchar        NOT NULL,
     email      varchar UNIQUE NOT NULL,
     password   varchar        NOT NULL,
-    created    timestamp      NOT NULL DEFAULT now(),
+    created    timestamp      NOT NULL,
     enabled    bool                    DEFAULT true
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE task
     name         varchar   NOT NULL,
     until        timestamp,
     link         varchar,
-    created      timestamp NOT NULL DEFAULT now(),
+    created      timestamp NOT NULL,
     updated      timestamp NOT NULL,
     category_id  integer   NOT NULL,
     priority_id  integer   NOT NULL,
