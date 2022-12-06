@@ -5,5 +5,5 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 
 @Configuration
 @EnableJdbcAuditing
-class AppConfig {
+class AppConfiguration {
 }

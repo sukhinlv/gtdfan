@@ -1,7 +1,9 @@
 package ru.jsft.gtdfan.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
@@ -12,9 +14,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class UserDto extends AbstractDto {
+public class UserDto {
+    private Long id;
 
     @NoHtml
     @NotBlank

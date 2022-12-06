@@ -1,6 +1,8 @@
 package ru.jsft.gtdfan.controller.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
@@ -11,9 +13,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class TaskDto extends AbstractDto {
+public class TaskDto {
+    private Long id;
 
     private boolean completed;
 
