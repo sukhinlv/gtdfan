@@ -1,17 +1,17 @@
-package ru.jsft.gtdfan.controller.mapper.converters;
+package ru.jsft.gtdfan.web.controller.mapper.converters;
 
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Component;
-import ru.jsft.gtdfan.model.User;
+import ru.jsft.gtdfan.model.Task;
 
 @Component
-public class AggregateUserLongToUserIdConverter {
+public class AggregateTaskLongToTaskIdConverter {
 
-    public Long map(AggregateReference<User, Long> value) {
+    public Long map(AggregateReference<Task, Long> value) {
         return value != null ? value.getId() : null;
     }
 
-    public AggregateReference<User, Long> map(Long value) {
+    public AggregateReference<Task, Long> map(Long value) {
         return value != null ? AggregateReference.to(value) : null;
     }
 }

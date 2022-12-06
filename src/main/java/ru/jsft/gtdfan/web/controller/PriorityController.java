@@ -1,14 +1,14 @@
-package ru.jsft.gtdfan.controller;
+package ru.jsft.gtdfan.web.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.jsft.gtdfan.controller.dto.PriorityDto;
-import ru.jsft.gtdfan.controller.mapper.PriorityMapper;
 import ru.jsft.gtdfan.model.Priority;
 import ru.jsft.gtdfan.service.PriorityService;
+import ru.jsft.gtdfan.web.controller.dto.PriorityDto;
+import ru.jsft.gtdfan.web.controller.mapper.PriorityMapper;
 
 import javax.validation.Valid;
 import java.net.URI;

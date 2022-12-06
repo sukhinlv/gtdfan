@@ -1,9 +1,9 @@
-package ru.jsft.gtdfan.controller.mapper;
+package ru.jsft.gtdfan.web.controller.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import ru.jsft.gtdfan.controller.dto.PriorityDto;
 import ru.jsft.gtdfan.model.Priority;
+import ru.jsft.gtdfan.web.controller.dto.PriorityDto;
 
 @Mapper
 public interface PriorityMapper {

@@ -1,9 +1,9 @@
-package ru.jsft.gtdfan.controller.mapper;
+package ru.jsft.gtdfan.web.controller.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import ru.jsft.gtdfan.controller.dto.CategoryDto;
 import ru.jsft.gtdfan.model.Category;
+import ru.jsft.gtdfan.web.controller.dto.CategoryDto;
 
 @Mapper
 public interface CategoryMapper {

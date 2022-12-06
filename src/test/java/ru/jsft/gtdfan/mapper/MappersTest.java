@@ -3,8 +3,8 @@ package ru.jsft.gtdfan.mapper;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
-import ru.jsft.gtdfan.controller.mapper.*;
 import ru.jsft.gtdfan.model.*;
+import ru.jsft.gtdfan.web.controller.mapper.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

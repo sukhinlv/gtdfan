@@ -1,14 +1,14 @@
-package ru.jsft.gtdfan.controller;
+package ru.jsft.gtdfan.web.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import ru.jsft.gtdfan.controller.dto.CategoryDto;
-import ru.jsft.gtdfan.controller.mapper.CategoryMapper;
 import ru.jsft.gtdfan.model.Category;
 import ru.jsft.gtdfan.service.CategoryService;
+import ru.jsft.gtdfan.web.controller.dto.CategoryDto;
+import ru.jsft.gtdfan.web.controller.mapper.CategoryMapper;
 
 import javax.validation.Valid;
 import java.net.URI;

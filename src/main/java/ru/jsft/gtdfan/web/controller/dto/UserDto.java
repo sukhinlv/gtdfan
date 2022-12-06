@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.controller.dto;
+package ru.jsft.gtdfan.web.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

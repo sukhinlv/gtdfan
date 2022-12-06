@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.controller.dto;
+package ru.jsft.gtdfan.web.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

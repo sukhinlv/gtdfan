@@ -12,14 +12,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.NestedServletException;
 import ru.jsft.gtdfan.AbstractControllerTest;
-import ru.jsft.gtdfan.controller.TaskController;
-import ru.jsft.gtdfan.controller.dto.TaskDto;
-import ru.jsft.gtdfan.controller.mapper.TaskMapper;
 import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.repository.TaskRepository;
-import ru.jsft.gtdfan.util.JsonUtil;
 import ru.jsft.gtdfan.util.MatcherFactory;
+import ru.jsft.gtdfan.web.controller.TaskController;
+import ru.jsft.gtdfan.web.controller.dto.TaskDto;
+import ru.jsft.gtdfan.web.controller.mapper.TaskMapper;
+import ru.jsft.gtdfan.web.util.JsonUtil;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;

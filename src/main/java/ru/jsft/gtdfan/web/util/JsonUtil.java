@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.util;
+package ru.jsft.gtdfan.web.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

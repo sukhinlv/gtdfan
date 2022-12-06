@@ -1,10 +1,10 @@
-package ru.jsft.gtdfan.controller.mapper;
+package ru.jsft.gtdfan.web.controller.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import ru.jsft.gtdfan.controller.dto.NoteDto;
 import ru.jsft.gtdfan.model.Note;
+import ru.jsft.gtdfan.web.controller.dto.NoteDto;
 
 @Mapper
 public interface NoteMapper {
