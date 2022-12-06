@@ -21,31 +21,33 @@ import java.util.stream.StreamSupport;
 public class PriorityController {
     public static final String REST_URL = "/api/v1/priorities";
     private final PriorityService service;
+    private final PriorityMapper mapper;
 
-    public PriorityController(PriorityService service) {
+    public PriorityController(PriorityService service, PriorityMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<List<PriorityDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
-                .map(PriorityMapper.INSTANCE::toDto)
+                .map(mapper::toDto)
                 .sorted(Comparator.comparing(PriorityDto::getName))
                 .toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PriorityDto> findById(@PathVariable int id) {
-        return ResponseEntity.ok(PriorityMapper.INSTANCE.toDto(service.findById(id)));
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PriorityDto> create(@Valid @RequestBody PriorityDto priorityDto) {
-        Priority created = service.create(PriorityMapper.INSTANCE.toEntity(priorityDto));
+        Priority created = service.create(mapper.toEntity(priorityDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(PriorityMapper.INSTANCE.toDto(created));
+        return ResponseEntity.created(uriOfNewResource).body(mapper.toDto(created));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -56,6 +58,6 @@ public class PriorityController {
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PriorityDto> update(@PathVariable long id, @Valid @RequestBody PriorityDto priorityDto) {
-        return ResponseEntity.ok(PriorityMapper.INSTANCE.toDto(service.update(id, PriorityMapper.INSTANCE.toEntity(priorityDto))));
+        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(priorityDto))));
     }
 }

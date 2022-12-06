@@ -21,31 +21,33 @@ import java.util.stream.StreamSupport;
 public class NoteController {
     public static final String REST_URL = "/api/v1/notes";
     private final NoteService service;
+    private final NoteMapper mapper;
 
-    public NoteController(NoteService service) {
+    public NoteController(NoteService service, NoteMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<List<NoteDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
-                .map(NoteMapper.INSTANCE::toDto)
+                .map(mapper::toDto)
                 .sorted(Comparator.comparing(NoteDto::getNote))
                 .toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<NoteDto> findById(@PathVariable int id) {
-        return ResponseEntity.ok(NoteMapper.INSTANCE.toDto(service.findById(id)));
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NoteDto> create(@Valid @RequestBody NoteDto noteDto) {
-        Note created = service.create(NoteMapper.INSTANCE.toEntity(noteDto));
+        Note created = service.create(mapper.toEntity(noteDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(NoteMapper.INSTANCE.toDto(created));
+        return ResponseEntity.created(uriOfNewResource).body(mapper.toDto(created));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -56,6 +58,6 @@ public class NoteController {
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NoteDto> update(@PathVariable long id, @Valid @RequestBody NoteDto noteDto) {
-        return ResponseEntity.ok(NoteMapper.INSTANCE.toDto(service.update(id, NoteMapper.INSTANCE.toEntity(noteDto))));
+        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(noteDto))));
     }
 }

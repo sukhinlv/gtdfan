@@ -21,31 +21,33 @@ import java.util.stream.StreamSupport;
 public class CategoryController {
     public static final String REST_URL = "/api/v1/categories";
     private final CategoryService service;
+    private final CategoryMapper mapper;
 
-    public CategoryController(CategoryService service) {
+    public CategoryController(CategoryService service, CategoryMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
-                .map(CategoryMapper.INSTANCE::toDto)
+                .map(mapper::toDto)
                 .sorted(Comparator.comparing(CategoryDto::getName))
                 .toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> findById(@PathVariable int id) {
-        return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.findById(id)));
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto categoryDto) {
-        Category created = service.create(CategoryMapper.INSTANCE.toEntity(categoryDto));
+        Category created = service.create(mapper.toEntity(categoryDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(CategoryMapper.INSTANCE.toDto(created));
+        return ResponseEntity.created(uriOfNewResource).body(mapper.toDto(created));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -56,6 +58,6 @@ public class CategoryController {
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CategoryDto> update(@PathVariable long id, @Valid @RequestBody CategoryDto categoryDto) {
-        return ResponseEntity.ok(CategoryMapper.INSTANCE.toDto(service.update(id, CategoryMapper.INSTANCE.toEntity(categoryDto))));
+        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(categoryDto))));
     }
 }

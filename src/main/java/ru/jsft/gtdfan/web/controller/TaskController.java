@@ -21,31 +21,33 @@ import java.util.stream.StreamSupport;
 public class TaskController {
     public static final String REST_URL = "/api/v1/tasks";
     private final TaskService service;
+    private final TaskMapper mapper;
 
-    public TaskController(TaskService service) {
+    public TaskController(TaskService service, TaskMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<List<TaskDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
-                .map(TaskMapper.INSTANCE::toDto)
+                .map(mapper::toDto)
                 .sorted(Comparator.comparing(TaskDto::getName))
                 .toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDto> findById(@PathVariable int id) {
-        return ResponseEntity.ok(TaskMapper.INSTANCE.toDto(service.findById(id)));
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDto> create(@Valid @RequestBody TaskDto dto) {
-        Task created = service.create(TaskMapper.INSTANCE.toEntity(dto));
+        Task created = service.create(mapper.toEntity(dto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(TaskMapper.INSTANCE.toDto(created));
+        return ResponseEntity.created(uriOfNewResource).body(mapper.toDto(created));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -56,6 +58,6 @@ public class TaskController {
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDto> update(@PathVariable long id, @Valid @RequestBody TaskDto dto) {
-        return ResponseEntity.ok(TaskMapper.INSTANCE.toDto(service.update(id, TaskMapper.INSTANCE.toEntity(dto))));
+        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(dto))));
     }
 }

@@ -19,34 +19,35 @@ import java.util.stream.StreamSupport;
 @RestController
 @RequestMapping(value = UserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
-
     public static final String REST_URL = "/api/v1/users";
     private final UserService service;
+    private final UserMapper mapper; 
 
-    public UserController(UserService service) {
+    public UserController(UserService service, UserMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
     public ResponseEntity<List<UserDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
-                .map(UserMapper.INSTANCE::toDto)
+                .map(mapper::toDto)
                 .sorted(Comparator.comparing(UserDto::getName))
                 .toList());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable int id) {
-        return ResponseEntity.ok(UserMapper.INSTANCE.toDto(service.findById(id)));
+        return ResponseEntity.ok(mapper.toDto(service.findById(id)));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto userDto) {
-        User created = service.create(UserMapper.INSTANCE.toEntity(userDto));
+        User created = service.create(mapper.toEntity(userDto));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(uriOfNewResource).body(UserMapper.INSTANCE.toDto(created));
+        return ResponseEntity.created(uriOfNewResource).body(mapper.toDto(created));
     }
 
     @DeleteMapping(path = "/{id}")
@@ -57,6 +58,6 @@ public class UserController {
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> update(@PathVariable long id, @Valid @RequestBody UserDto userDto) {
-        return ResponseEntity.ok(UserMapper.INSTANCE.toDto(service.update(id, UserMapper.INSTANCE.toEntity(userDto))));
+        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(userDto))));
     }
 }
