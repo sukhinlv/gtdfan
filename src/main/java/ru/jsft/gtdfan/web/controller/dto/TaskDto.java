@@ -32,10 +32,10 @@ public class TaskDto {
     private LocalDateTime updated;
 
     @NotNull
-    private Long categoryId;
+    private CategoryDto categoryDto;
 
     @NotNull
-    private Long priorityId;
+    private PriorityDto priorityDto;
 
     private Long supertaskId;
 

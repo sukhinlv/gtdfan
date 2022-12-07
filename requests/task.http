@@ -13,7 +13,11 @@ Content-Type: application/json
 {
   "completed": false,
   "name": "Новая задача",
-  "categoryId": 1,
-  "priorityId": 1,
+  "categoryDto": {
+    "id": 1
+  },
+  "priorityDto": {
+    "id": 1
+  },
   "userId": 1
 }
