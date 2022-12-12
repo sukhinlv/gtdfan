@@ -10,6 +10,7 @@ import ru.jsft.gtdfan.repository.PriorityRepository;
 import ru.jsft.gtdfan.repository.TaskRepository;
 import ru.jsft.gtdfan.repository.UserRepository;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -37,12 +38,12 @@ public class InitializeData {
 
     @Bean
     @Transactional
-    CommandLineRunner commandLineRunner() {
+    CommandLineRunner commandLineRunner(Clock clock) {
         return args -> {
             User userLeonid = new User("leva@ya.ru", "Leonid", "Sukhin", "admin",
-                    LocalDateTime.now(), true, Collections.singleton(Role.ADMIN));
+                    LocalDateTime.now(clock), true, Collections.singleton(Role.ADMIN));
             User userNatasha = new User("ns@ya.ru", "Natasha", "Sukhina", "user",
-                    LocalDateTime.now(), true, Collections.singleton(Role.USER));
+                    LocalDateTime.now(clock), true, Collections.singleton(Role.USER));
             userRepository.saveAll(List.of(userLeonid, userNatasha));
 
             Priority high = new Priority("High", 0);
@@ -59,8 +60,8 @@ public class InitializeData {
                     Task.builder().name("Проверь обновление 1С (еженедельно)")
                             .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId()))
                             .notes(List.of(
-                                    Note.builder().updated(LocalDateTime.now()).note("Note for 1C update").build(),
-                                    Note.builder().updated(LocalDateTime.now()).note("Another one note for update").build()))
+                                    Note.builder().updated(LocalDateTime.now(clock)).note("Note for 1C update").build(),
+                                    Note.builder().updated(LocalDateTime.now(clock)).note("Another one note for update").build()))
                             .build(),
                     Task.builder().name("Subtask for 1C update")
                             .supertaskId(to(1L))
@@ -83,7 +84,7 @@ public class InitializeData {
                     Task.builder().name("Some task by Natasha")
                             .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId()))
                             .notes(List.of(
-                                    Note.builder().updated(LocalDateTime.now()).note("Note for Natasha`s task").build()))
+                                    Note.builder().updated(LocalDateTime.now(clock)).note("Note for Natasha`s task").build()))
                             .build(),
                     Task.builder().name("Some holdover task by Natasha")
                             .until(LocalDateTime.of(2021, 1, 1, 0, 0))

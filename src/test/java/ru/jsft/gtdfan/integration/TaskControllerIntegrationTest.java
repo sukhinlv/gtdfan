@@ -42,7 +42,7 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
     @Autowired
     private TaskRepository repository;
-    
+
     @Autowired
     private TaskMapper mapper;
 
@@ -98,7 +98,7 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
     void shouldCreate() throws Exception {
         Task expected = Task.builder()
                 .name("Some test task")
-                .until(LocalDateTime.now())
+                .until(LocalDateTime.of(2022, 12, 15, 10, 30))
                 .categoryId(AggregateReference.to(1L))
                 .priorityId(AggregateReference.to(1L))
                 .userId(AggregateReference.to(1L))
