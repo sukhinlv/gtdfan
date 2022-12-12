@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -15,9 +15,9 @@ public class PriorityDto {
     private Long id;
 
     @NoHtml
-    @NotBlank
+    @NotBlank(message = "Priority must have name")
     private String name;
 
-    @NotNull
+    @Digits(message = "Level number must be not empty", integer = 128, fraction = 0)
     private Integer level;
 }

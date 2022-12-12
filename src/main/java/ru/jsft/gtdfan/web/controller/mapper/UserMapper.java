@@ -9,7 +9,6 @@ import ru.jsft.gtdfan.web.controller.dto.UserDto;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface UserMapper {
-    @Mapping(ignore = true, target = "created")
     User toEntity(UserDto destination);
 
     @Mapping(target = "password", constant = "***")

@@ -13,6 +13,6 @@ import javax.validation.constraints.NotBlank;
 public class Category extends BaseEntity {
 
     @NoHtml
-    @NotBlank
+    @NotBlank(message = "Category must have name")
     private String name;
 }

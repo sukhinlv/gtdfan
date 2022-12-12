@@ -3,8 +3,8 @@ package ru.jsft.gtdfan.model;
 import lombok.*;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 public class Priority extends BaseEntity {
 
     @NoHtml
-    @NotBlank
+    @NotBlank(message = "Priority must have name")
     private String name;
 
-    @NotNull
+    @Digits(message = "Level number must be not empty", integer = 128, fraction = 0)
     private Integer level;
 }

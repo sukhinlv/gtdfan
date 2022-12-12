@@ -24,7 +24,7 @@ public class Task extends BaseEntity {
     private boolean completed;
 
     @NoHtml
-    @NotBlank
+    @NotBlank(message = "Task name must not be empty")
     private String name;
 
     private LocalDateTime until;
@@ -32,18 +32,16 @@ public class Task extends BaseEntity {
     @NoHtml
     private String link;
 
-    @NotNull
     @CreatedDate
     private LocalDateTime created;
 
-    @NotNull
     @LastModifiedDate
     private LocalDateTime updated;
 
-    @NotNull
+    @NotNull(message = "Category must be set")
     private AggregateReference<Category, Long> categoryId;
 
-    @NotNull
+    @NotNull(message = "Priority must be set")
     private AggregateReference<Priority, Long> priorityId;
 
     private AggregateReference<Task, Long> supertaskId;

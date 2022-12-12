@@ -17,6 +17,6 @@ public class NoteDto {
     private LocalDateTime updated;
 
     @NoHtml
-    @NotBlank
+    @NotBlank(message = "Note must not be empty")
     private String note;
 }

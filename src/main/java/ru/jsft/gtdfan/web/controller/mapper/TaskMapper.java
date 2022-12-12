@@ -19,8 +19,6 @@ import ru.jsft.gtdfan.web.controller.mapper.converters.AggregateUserLongToUserId
                 AggregateUserLongToUserIdConverter.class
         })
 public interface TaskMapper {
-    @Mapping(ignore = true, target = "created")
-    @Mapping(ignore = true, target = "updated")
     @Mapping(source = "categoryDto", target = "categoryId")
     @Mapping(source = "priorityDto", target = "priorityId")
     Task toEntity(TaskDto destination);

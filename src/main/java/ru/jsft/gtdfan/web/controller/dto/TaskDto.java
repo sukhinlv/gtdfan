@@ -27,10 +27,8 @@ public class TaskDto {
     @NoHtml
     private String link;
 
-    @NotNull
     private LocalDateTime created;
 
-    @NotNull
     private LocalDateTime updated;
 
     @NotNull

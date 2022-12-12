@@ -8,10 +8,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -53,6 +50,7 @@ public class User extends BaseEntity {
 
     private boolean enabled;
 
+    @NotEmpty
     private Set<Role> roles;
 
     public void setEmail(String email) {
