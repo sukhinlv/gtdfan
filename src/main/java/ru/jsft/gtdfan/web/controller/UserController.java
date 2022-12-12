@@ -32,7 +32,7 @@ public class UserController {
     public ResponseEntity<List<UserDto>> findAllCategories() {
         return ResponseEntity.ok(StreamSupport.stream(service.findAll().spliterator(), false)
                 .map(mapper::toDto)
-                .sorted(Comparator.comparing(UserDto::getName))
+                .sorted(Comparator.comparing(UserDto::getEmail))
                 .toList());
     }
 

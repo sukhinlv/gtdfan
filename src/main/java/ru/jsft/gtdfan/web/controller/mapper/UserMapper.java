@@ -12,5 +12,6 @@ public interface UserMapper {
     @Mapping(ignore = true, target = "created")
     User toEntity(UserDto destination);
 
+    @Mapping(target = "password", constant = "***")
     UserDto toDto(User source);
 }

@@ -18,11 +18,13 @@ CREATE TABLE priority
 CREATE TABLE users
 (
     id         SERIAL PRIMARY KEY,
-    name       varchar        NOT NULL,
     email      varchar UNIQUE NOT NULL,
+    first_name varchar        NOT NULL,
+    last_name  varchar        NOT NULL,
     password   varchar        NOT NULL,
     created    timestamp      NOT NULL,
-    enabled    bool                    DEFAULT true
+    enabled    bool                    DEFAULT true,
+    roles      varchar        NOT NULL
 );
 
 CREATE TABLE task
@@ -34,23 +36,22 @@ CREATE TABLE task
     link         varchar,
     created      timestamp NOT NULL,
     updated      timestamp NOT NULL,
-    category_id  integer   NOT NULL,
-    priority_id  integer   NOT NULL,
-    supertask_id integer,
-    user_id      integer   NOT NULL,
+    category_id  bigint    NOT NULL,
+    priority_id  bigint    NOT NULL,
+    supertask_id bigint,
+    user_id      bigint    NOT NULL,
     FOREIGN KEY (category_id) REFERENCES category (id),
     FOREIGN KEY (priority_id) REFERENCES priority (id),
     FOREIGN KEY (supertask_id) REFERENCES task (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE INDEX main_index ON task (user_id, completed, category_id, priority_id, name);
+CREATE INDEX task_main_index ON task (user_id, completed, category_id, priority_id, name);
 
 CREATE TABLE note
 (
-    id        SERIAL PRIMARY KEY,
-    task_id   integer   NOT NULL,
+    task_id   bigint    NOT NULL,
     updated   timestamp NOT NULL,
     note      varchar   NOT NULL,
     FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE
 );
-CREATE INDEX updated_index ON note (updated);
+CREATE INDEX note_updated_index ON note (updated);

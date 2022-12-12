@@ -4,13 +4,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
-import ru.jsft.gtdfan.model.Category;
-import ru.jsft.gtdfan.model.Priority;
-import ru.jsft.gtdfan.model.Task;
-import ru.jsft.gtdfan.model.User;
-import ru.jsft.gtdfan.repository.*;
+import ru.jsft.gtdfan.model.*;
+import ru.jsft.gtdfan.repository.CategoryRepository;
+import ru.jsft.gtdfan.repository.PriorityRepository;
+import ru.jsft.gtdfan.repository.TaskRepository;
+import ru.jsft.gtdfan.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.data.jdbc.core.mapping.AggregateReference.to;
@@ -22,27 +23,26 @@ public class PopulateTasks {
     private final PriorityRepository priorityRepository;
     private final CategoryRepository categoryRepository;
     private final TaskRepository taskRepository;
-    private final NoteRepository noteRepository;
 
     public PopulateTasks(UserRepository userRepository,
                          PriorityRepository priorityRepository,
                          CategoryRepository categoryRepository,
-                         TaskRepository taskRepository,
-                         NoteRepository noteRepository) {
+                         TaskRepository taskRepository) {
 
         this.userRepository = userRepository;
         this.priorityRepository = priorityRepository;
         this.categoryRepository = categoryRepository;
         this.taskRepository = taskRepository;
-        this.noteRepository = noteRepository;
     }
 
     @Bean
     @Transactional
     CommandLineRunner commandLineRunner() {
         return args -> {
-            User userLeonid = new User("Leonid", "leva@ya.ru", "admin", LocalDateTime.now(), true);
-            User userNatasha = new User("Natasha", "ns@ya.ru", "user", LocalDateTime.now(), true);
+            User userLeonid = new User("leva@ya.ru", "Leonid", "Sukhin", "admin",
+                    LocalDateTime.now(), true, Collections.singleton(Role.ADMIN));
+            User userNatasha = new User("ns@ya.ru", "Natasha", "Sukhina", "user",
+                    LocalDateTime.now(), true, Collections.singleton(Role.USER));
             userRepository.saveAll(List.of(userLeonid, userNatasha));
 
             Priority high = new Priority("High", 0);
@@ -57,7 +57,11 @@ public class PopulateTasks {
 
             taskRepository.saveAll(List.of(
                     Task.builder().name("Проверь обновление 1С (еженедельно)")
-                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId()))
+                            .notes(List.of(
+                                    Note.builder().updated(LocalDateTime.now()).note("Note for 1C update").build(),
+                                    Note.builder().updated(LocalDateTime.now()).note("Another one note for update").build()))
+                            .build(),
                     Task.builder().name("Subtask for 1C update")
                             .supertaskId(to(1L))
                             .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(userLeonid.getId())).build(),
@@ -77,18 +81,14 @@ public class PopulateTasks {
                     Task.builder().name("Some holdover task")
                             .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build(),
                     Task.builder().name("Some task by Natasha")
-                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId()))
+                            .notes(List.of(
+                                    Note.builder().updated(LocalDateTime.now()).note("Note for Natasha`s task").build()))
+                            .build(),
                     Task.builder().name("Some holdover task by Natasha")
                             .until(LocalDateTime.of(2021, 1, 1, 0, 0))
                             .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build()
             ));
-//
-//            Task task = taskRepository.findById(1L).orElseThrow();
-//            task.getNotes().addAll(List.of(
-//                    Note.builder().taskId(task.getId()).note("Note for 1C update").build(),
-//                    Note.builder().taskId(task.getId()).note("Another one note for update").build()
-//            ));
-//            taskRepository.save(task);
         };
     }
 }

@@ -1,15 +1,21 @@
 package ru.jsft.gtdfan.web.controller.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+import ru.jsft.gtdfan.model.Role;
 import ru.jsft.gtdfan.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -17,21 +23,42 @@ import java.time.LocalDateTime;
 public class UserDto {
     private Long id;
 
+    @Size(max = 128)
     @NoHtml
-    @NotBlank
-    private String name;
-
-    @NoHtml
-    @NotBlank
-    @Email
+    @Email(message = "Please enter valid e-mail")
+    @NotBlank(message = "Email must not be empty")
     private String email;
 
-    @NotBlank
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Size(max = 128)
+    @NoHtml
+    @NotBlank(message = "First name must not be empty")
+    private String firstName;
+
+    @Size(max = 128)
+    @NoHtml
+    @NotBlank(message = "Last name must not be empty")
+    private String lastName;
+
+    @Size(max = 256)
+    @NotBlank(message = "Password must not be empty")
     private String password;
 
     @NotNull
     private LocalDateTime created;
 
     private boolean enabled = true;
+
+    private Set<Role> roles;
+
+    public void setEmail(String email) {
+        this.email = StringUtils.hasText(email) ? email.toLowerCase() : null;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+    }
 }

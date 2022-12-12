@@ -13,11 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteDto {
-    private Long id;
-
-    @NotNull
-    private Long taskId;
-
     @NotNull
     private LocalDateTime updated;
 
