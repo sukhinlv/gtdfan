@@ -47,7 +47,7 @@ public class UserDto {
 
     private boolean enabled = true;
 
-    @NotEmpty
+    @NotEmpty(message = "Roles must not be empty")
     private Set<Role> roles;
 
     public void setEmail(String email) {

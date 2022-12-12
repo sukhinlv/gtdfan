@@ -6,9 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import ru.jsft.gtdfan.validation.NoHtml;
 
-import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -22,35 +20,21 @@ import java.util.Set;
 @Table("USERS")
 public class User extends BaseEntity {
 
-    @Size(max = 128)
-    @NoHtml
-    @Email(message = "Please enter valid e-mail")
-    @NotBlank(message = "Email must not be empty")
     private String email;
 
-    @Size(max = 128)
-    @NoHtml
-    @NotBlank(message = "First name must not be empty")
     private String firstName;
 
-    @Size(max = 128)
-    @NoHtml
-    @NotBlank(message = "Last name must not be empty")
     private String lastName;
 
-    @Size(max = 256)
-    @NotBlank(message = "Password must not be empty")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 //    @JsonDeserialize(using = PasswordDeserializer.class)
     private String password;
 
-    @NotNull
     @CreatedDate
     private LocalDateTime created;
 
     private boolean enabled;
 
-    @NotEmpty
     private Set<Role> roles;
 
     public void setEmail(String email) {

@@ -1,10 +1,7 @@
 package ru.jsft.gtdfan.model;
 
 import lombok.*;
-import ru.jsft.gtdfan.validation.NoHtml;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,10 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 public class Note {
-    @NotNull
     private LocalDateTime updated;
 
-    @NoHtml
-    @NotBlank(message = "Note must not be empty")
     private String note;
 }

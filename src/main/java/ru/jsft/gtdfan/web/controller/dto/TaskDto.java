@@ -19,7 +19,7 @@ public class TaskDto {
     private boolean completed;
 
     @NoHtml
-    @NotBlank
+    @NotBlank(message = "Task name must not be empty")
     private String name;
 
     private LocalDateTime until;
@@ -31,10 +31,10 @@ public class TaskDto {
 
     private LocalDateTime updated;
 
-    @NotNull
+    @NotNull(message = "Category must be set")
     private CategoryDto categoryDto;
 
-    @NotNull
+    @NotNull(message = "Priority must be set")
     private PriorityDto priorityDto;
 
     private Long supertaskId;
