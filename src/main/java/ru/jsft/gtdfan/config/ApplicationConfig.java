@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +12,6 @@ import ru.jsft.gtdfan.web.util.JsonUtil;
 
 import java.sql.SQLException;
 import java.time.Clock;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -34,9 +32,9 @@ class ApplicationConfig {
 
     @Bean
     @Profile("test")
-    public Clock testClock(@Value("${vote.time.constraint}") LocalTime timeConstraint) {
+    public Clock testClock() {
         ZonedDateTime now = ZonedDateTime.of(
-                2022, 11, 15, timeConstraint.getHour() - 3, timeConstraint.getMinute(), 0, 0,
+                2022, 11, 15, 11, 0, 0, 0,
                 ZoneId.of("GMT"));
 
         return Clock.fixed(now.toInstant(), now.getZone());

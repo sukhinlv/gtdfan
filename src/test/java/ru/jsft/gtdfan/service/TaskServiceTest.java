@@ -43,7 +43,7 @@ class TaskServiceTest {
         );
         when(repository.findAll()).thenReturn(expected);
 
-        assertThat(underTest.findAll()).isNotNull().usingRecursiveComparison().isEqualTo(expected);
+        assertThat(underTest.findAllForUser(1L)).isNotNull().usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -51,14 +51,14 @@ class TaskServiceTest {
         Task expected = Instancio.create(Task.class);
         when(repository.findById(expected.getId())).thenReturn(Optional.of(expected));
 
-        assertThat(underTest.findById(expected.getId())).isNotNull().usingRecursiveComparison().isEqualTo(expected);
+        assertThat(underTest.findById(expected.getId(), 1L)).isNotNull().usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void shouldThrow_WhenNotFindById() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> underTest.findById(1L))
+        assertThatThrownBy(() -> underTest.findById(1L, 1L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessageContaining(String.format("Task with id = %d not found", 1L));
     }
@@ -69,21 +69,21 @@ class TaskServiceTest {
         expected.setId(null);
         when(repository.save(expected)).thenReturn(expected);
 
-        assertThat(underTest.create(expected)).isNotNull().usingRecursiveComparison().isEqualTo(expected);
+        assertThat(underTest.create(expected, 1L)).isNotNull().usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
     void shouldThrowWhenCreateNotNew() {
         Task meal = Instancio.create(Task.class);
 
-        assertThatThrownBy(() -> underTest.create(meal))
+        assertThatThrownBy(() -> underTest.create(meal, 1L))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Task must be new");
     }
 
     @Test
     void shouldDelete() {
-        underTest.delete(1L);
+        underTest.delete(1L, 1L);
         then(repository).should().deleteById(idCaptor.capture());
 
         assertThat(idCaptor.getValue()).isEqualTo(1L);
@@ -97,7 +97,7 @@ class TaskServiceTest {
         when(repository.findById(original.getId())).thenReturn(Optional.of(original));
         when(repository.save(updated)).thenReturn(updated);
 
-        Task actual = underTest.update(original.getId(), updated);
+        Task actual = underTest.update(original.getId(), updated, 1L);
 
         assertThat(actual).usingRecursiveComparison().isEqualTo(updated);
     }
@@ -106,7 +106,7 @@ class TaskServiceTest {
     void shouldThrowWhenUpdateWrongId() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> underTest.update(1L, new Task()))
+        assertThatThrownBy(() -> underTest.update(1L, new Task(), 1L))
                 .isInstanceOf(NotFoundException.class)
                 .hasMessageContaining(String.format("Task with id = %d not found", 1L));
     }

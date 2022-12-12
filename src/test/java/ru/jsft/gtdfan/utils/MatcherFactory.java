@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.util;
+package ru.jsft.gtdfan.utils;
 
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;

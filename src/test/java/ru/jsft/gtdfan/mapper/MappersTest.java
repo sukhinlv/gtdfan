@@ -28,7 +28,7 @@ public class MappersTest extends AbstractSpringBootTest {
         Category category = Instancio.create(Category.class);
         assertThat(categoryMapper.toEntity(categoryMapper.toDto(category)))
                 .isNotNull()
-                .usingRecursiveComparison().isEqualTo(category);
+                .isEqualTo(category);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class MappersTest extends AbstractSpringBootTest {
         Note note = Instancio.create(Note.class);
         assertThat(noteMapper.toEntity(noteMapper.toDto(note)))
                 .isNotNull()
-                .usingRecursiveComparison().ignoringFields("updated").isEqualTo(note);
+                .isEqualTo(note);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class MappersTest extends AbstractSpringBootTest {
         Priority priority = Instancio.create(Priority.class);
         assertThat(priorityMapper.toEntity(priorityMapper.toDto(priority)))
                 .isNotNull()
-                .usingRecursiveComparison().isEqualTo(priority);
+                .isEqualTo(priority);
     }
 
     @Test
@@ -55,14 +55,17 @@ public class MappersTest extends AbstractSpringBootTest {
         task.setUserId(AggregateReference.to(1L));
         assertThat(taskMapper.toEntity(taskMapper.toDto(task)))
                 .isNotNull()
-                .usingRecursiveComparison().ignoringFields("created", "updated").isEqualTo(task);
+                .isEqualTo(task);
     }
 
     @Test
     void userMapper() {
-        User user = Instancio.create(User.class);
-        assertThat(userMapper.toEntity(userMapper.toDto(user)))
+        User expected = Instancio.create(User.class);
+        User actual = userMapper.toEntity(userMapper.toDto(expected));
+        expected.setPassword("***");
+        expected.setEmail(expected.getEmail().toLowerCase());
+        assertThat(actual)
                 .isNotNull()
-                .usingRecursiveComparison().ignoringFields("created").isEqualTo(user);
+                .isEqualTo(expected);
     }
 }

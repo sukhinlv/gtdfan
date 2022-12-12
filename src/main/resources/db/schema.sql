@@ -45,7 +45,7 @@ CREATE TABLE task
     FOREIGN KEY (supertask_id) REFERENCES task (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE INDEX task_main_index ON task (user_id, completed, category_id, priority_id, name);
+CREATE INDEX task_id_userid_idx ON task (id, user_id);
 
 CREATE TABLE note
 (

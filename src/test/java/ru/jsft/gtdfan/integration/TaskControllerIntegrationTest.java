@@ -13,7 +13,7 @@ import ru.jsft.gtdfan.AbstractSpringBootTest;
 import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.repository.TaskRepository;
-import ru.jsft.gtdfan.util.MatcherFactory;
+import ru.jsft.gtdfan.utils.MatcherFactory;
 import ru.jsft.gtdfan.web.controller.TaskController;
 import ru.jsft.gtdfan.web.controller.dto.TaskDto;
 import ru.jsft.gtdfan.web.controller.mapper.TaskMapper;
