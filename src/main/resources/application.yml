@@ -2,7 +2,7 @@ spring:
   datasource:
     # inmemory db
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:gtdfan
+    url: jdbc:h2:mem:gtdfan;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" # https://stackoverflow.com/a/52481318/20265936
     username: sa
     password:
 
@@ -27,6 +27,9 @@ spring:
 
   # Spring Boot color console logging
   output.ansi.enabled: always
+
+  profiles:
+    active: development
 
 # Logger configuration
 logging:
@@ -57,12 +60,3 @@ server:
       charset: UTF-8 # Charset of HTTP requests and responses. Added to the "Content-Type" header if not set explicitly
       enabled: true # Enable http encoding support
       force: true
-
-#  profiles:
-#    active: development
-
-#  # Security configuration
-#  security:
-#    user:
-#      name: user
-#      password: user

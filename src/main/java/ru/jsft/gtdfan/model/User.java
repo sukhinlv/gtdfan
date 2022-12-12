@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import ru.jsft.gtdfan.util.validation.NoHtml;
+import ru.jsft.gtdfan.validation.NoHtml;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;

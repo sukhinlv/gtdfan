@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ru.jsft.gtdfan.model.Role;
-import ru.jsft.gtdfan.util.validation.NoHtml;
+import ru.jsft.gtdfan.validation.NoHtml;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

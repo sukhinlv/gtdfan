@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.util.validation;
+package ru.jsft.gtdfan.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

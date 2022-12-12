@@ -1,4 +1,4 @@
-package ru.jsft.gtdfan.util.validation;
+package ru.jsft.gtdfan.validation;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;

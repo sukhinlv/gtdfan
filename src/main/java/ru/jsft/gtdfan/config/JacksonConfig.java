@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.jsft.gtdfan.web.util.JsonUtil;
 
 @Configuration
-public class JacksonConfiguration {
+public class JacksonConfig {
     @Autowired
     void configureAndStoreObjectMapper(ObjectMapper objectMapper) {
         objectMapper.registerModule(new JavaTimeModule());

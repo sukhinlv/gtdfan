@@ -1,7 +1,7 @@
 package ru.jsft.gtdfan.model;
 
 import lombok.*;
-import ru.jsft.gtdfan.util.validation.NoHtml;
+import ru.jsft.gtdfan.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
 

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 @Configuration
 @EnableJdbcAuditing
 @Slf4j
-class AppConfiguration {
+class ApplicationConfig {
     @Profile("!test")
     @Bean(initMethod = "start", destroyMethod = "stop")
     Server h2Server() throws SQLException {

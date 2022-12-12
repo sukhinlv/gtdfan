@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.data.relational.core.mapping.MappedCollection;
-import ru.jsft.gtdfan.util.validation.NoHtml;
+import ru.jsft.gtdfan.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

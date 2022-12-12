@@ -17,17 +17,17 @@ import java.util.List;
 import static org.springframework.data.jdbc.core.mapping.AggregateReference.to;
 
 @Configuration
-public class PopulateTasks {
+public class InitializeData {
 
     private final UserRepository userRepository;
     private final PriorityRepository priorityRepository;
     private final CategoryRepository categoryRepository;
     private final TaskRepository taskRepository;
 
-    public PopulateTasks(UserRepository userRepository,
-                         PriorityRepository priorityRepository,
-                         CategoryRepository categoryRepository,
-                         TaskRepository taskRepository) {
+    public InitializeData(UserRepository userRepository,
+                          PriorityRepository priorityRepository,
+                          CategoryRepository categoryRepository,
+                          TaskRepository taskRepository) {
 
         this.userRepository = userRepository;
         this.priorityRepository = priorityRepository;
