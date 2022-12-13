@@ -7,6 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.repository.TaskRepository;
@@ -36,12 +37,12 @@ class TaskServiceTest {
     }
 
     @Test
-    void shouldFindAll() {
+    void shouldFindAllForUser() {
         Iterable<Task> expected = List.of(
                 Instancio.create(Task.class),
                 Instancio.create(Task.class)
         );
-        when(repository.findAll()).thenReturn(expected);
+        when(repository.findAllByUserId(1L)).thenReturn(expected);
 
         assertThat(underTest.findAllForUser(1L)).isNotNull().usingRecursiveComparison().isEqualTo(expected);
     }
@@ -49,9 +50,10 @@ class TaskServiceTest {
     @Test
     void shouldFindById() {
         Task expected = Instancio.create(Task.class);
-        when(repository.findById(expected.getId())).thenReturn(Optional.of(expected));
+        when(repository.findByIdAndUserId(expected.getId(), 1L)).thenReturn(Optional.of(expected));
 
-        assertThat(underTest.findById(expected.getId(), 1L)).isNotNull().usingRecursiveComparison().isEqualTo(expected);
+        assertThat(underTest.findById(expected.getId(), 1L))
+                .isNotNull().usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -83,15 +85,20 @@ class TaskServiceTest {
 
     @Test
     void shouldDelete() {
-        underTest.delete(1L, 1L);
-        then(repository).should().deleteById(idCaptor.capture());
+        Task expected = Instancio.create(Task.class);
+        expected.setUserId(AggregateReference.to(1L));
+        when(repository.findById(1L)).thenReturn(Optional.of(expected));
 
+        underTest.delete(1L, expected.getUserId().getId());
+
+        then(repository).should().deleteById(idCaptor.capture());
         assertThat(idCaptor.getValue()).isEqualTo(1L);
     }
 
     @Test
     void shouldUpdate() {
         Task original = Instancio.create(Task.class);
+        original.setUserId(AggregateReference.to(1L));
         Task updated = Instancio.create(Task.class);
         updated.setId(original.getId());
         when(repository.findById(original.getId())).thenReturn(Optional.of(original));
@@ -105,6 +112,17 @@ class TaskServiceTest {
     @Test
     void shouldThrowWhenUpdateWrongId() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> underTest.update(1L, new Task(), 1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining(String.format("Task with id = %d not found", 1L));
+    }
+
+    @Test
+    void shouldThrowWhenUpdateNotOwned() {
+        Task notOwned = Instancio.create(Task.class);
+        notOwned.setUserId(AggregateReference.to(2L));
+        when(repository.findById(1L)).thenReturn(Optional.of(notOwned));
 
         assertThatThrownBy(() -> underTest.update(1L, new Task(), 1L))
                 .isInstanceOf(NotFoundException.class)
