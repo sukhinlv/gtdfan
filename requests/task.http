@@ -1,6 +1,7 @@
 ### Get all tasks
 GET http://localhost:8090/api/v1/tasks
 Accept: application/json
+Authorization: Basic leva@ya.ru admin
 
 ### Get task by id
 GET http://localhost:8090/api/v1/tasks/19

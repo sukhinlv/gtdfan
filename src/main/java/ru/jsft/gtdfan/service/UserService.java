@@ -48,7 +48,7 @@ public class UserService {
         log.info("Update user with id = {}", user.getId());
         user.setId(id);
         user.setPassword(storedUser.getPassword()); // do not update the password, it must be updated in a separate way
-        user.setRoles(storedUser.getRoles()); // do not update roles, it must be updated in a separate way
+        user.setRole(storedUser.getRole()); // do not update role, it must be updated in a separate way
         return repository.save(user);
     }
 }

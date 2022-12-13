@@ -5,6 +5,8 @@ import lombok.ToString;
 import org.springframework.lang.NonNull;
 import ru.jsft.gtdfan.model.User;
 
+import java.util.List;
+
 @Getter
 @ToString(of = "user")
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
@@ -12,7 +14,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
     private final User user;
 
     public AuthorizedUser(@NonNull User user) {
-        super(user.getEmail(), user.getPassword(), user.getRoles());
+        super(user.getEmail(), user.getPassword(), List.of(user.getRole()));
         this.user = user;
     }
 

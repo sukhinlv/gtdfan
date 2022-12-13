@@ -12,7 +12,6 @@ import ru.jsft.gtdfan.repository.UserRepository;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.data.jdbc.core.mapping.AggregateReference.to;
@@ -41,9 +40,9 @@ public class InitializeData {
     CommandLineRunner commandLineRunner(Clock clock) {
         return args -> {
             User userLeonid = new User("leva@ya.ru", "Leonid", "Sukhin", "{noop}admin",
-                    LocalDateTime.now(clock), true, Collections.singleton(Role.ADMIN));
+                    LocalDateTime.now(clock), true, Role.ADMIN);
             User userNatasha = new User("ns@ya.ru", "Natasha", "Sukhina", "{noop}user",
-                    LocalDateTime.now(clock), true, Collections.singleton(Role.USER));
+                    LocalDateTime.now(clock), true, Role.USER);
             userRepository.saveAll(List.of(userLeonid, userNatasha));
 
             Priority high = new Priority("High", 0);

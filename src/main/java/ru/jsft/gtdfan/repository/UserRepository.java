@@ -1,6 +1,5 @@
 package ru.jsft.gtdfan.repository;
 
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +11,5 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    @Query("SELECT u FROM Users u WHERE u.email = LOWER(:email)")
     Optional<User> findByEmailIgnoreCase(String email);
 }

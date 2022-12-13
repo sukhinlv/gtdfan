@@ -24,7 +24,7 @@ CREATE TABLE users
     password   varchar        NOT NULL,
     created    timestamp      NOT NULL,
     enabled    bool                    DEFAULT true,
-    roles      varchar        NOT NULL
+    user_role  varchar        NOT NULL
 );
 
 CREATE TABLE task

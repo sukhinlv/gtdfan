@@ -7,11 +7,13 @@ import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import ru.jsft.gtdfan.model.User;
 import ru.jsft.gtdfan.web.security.AuthorizedUser;
 
+import java.util.List;
+
 public class MockAuthorization {
 
     public static void mockAuthorize(User user) {
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(new AuthorizedUser(user), null, user.getRoles()));
+                new UsernamePasswordAuthenticationToken(new AuthorizedUser(user), null, List.of(user.getRole())));
     }
 
     public static RequestPostProcessor userHttpBasic(User user) {
