@@ -7,10 +7,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.jsft.gtdfan.model.Task;
-import ru.jsft.gtdfan.model.User;
 import ru.jsft.gtdfan.service.TaskService;
 import ru.jsft.gtdfan.web.controller.dto.TaskDto;
 import ru.jsft.gtdfan.web.controller.mapper.TaskMapper;
+import ru.jsft.gtdfan.web.security.AuthorizedUser;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -31,21 +31,21 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TaskDto>> findAllForUser(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(StreamSupport.stream(service.findAllForUser(user.getId()).spliterator(), false)
+    public ResponseEntity<List<TaskDto>> findAllForUser(@AuthenticationPrincipal AuthorizedUser user) {
+        return ResponseEntity.ok(StreamSupport.stream(service.findAllForUser(user.id()).spliterator(), false)
                 .map(mapper::toDto)
                 .sorted(Comparator.comparing(TaskDto::getName))
                 .toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TaskDto> findById(@PathVariable int id, @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(mapper.toDto(service.findById(id, user.getId())));
+    public ResponseEntity<TaskDto> findById(@PathVariable int id, @AuthenticationPrincipal AuthorizedUser user) {
+        return ResponseEntity.ok(mapper.toDto(service.findById(id, user.id())));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDto> create(@Valid @RequestBody TaskDto dto, @AuthenticationPrincipal User user) {
-        Task created = service.create(mapper.toEntity(dto), user.getId());
+    public ResponseEntity<TaskDto> create(@Valid @RequestBody TaskDto dto, @AuthenticationPrincipal AuthorizedUser user) {
+        Task created = service.create(mapper.toEntity(dto), user.id());
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -54,12 +54,12 @@ public class TaskController {
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id, @AuthenticationPrincipal User user) {
-        service.delete(id, user.getId());
+    public void delete(@PathVariable long id, @AuthenticationPrincipal AuthorizedUser user) {
+        service.delete(id, user.id());
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDto> update(@PathVariable long id, @Valid @RequestBody TaskDto dto, @AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(dto), user.getId())));
+    public ResponseEntity<TaskDto> update(@PathVariable long id, @Valid @RequestBody TaskDto dto, @AuthenticationPrincipal AuthorizedUser user) {
+        return ResponseEntity.ok(mapper.toDto(service.update(id, mapper.toEntity(dto), user.id())));
     }
 }
