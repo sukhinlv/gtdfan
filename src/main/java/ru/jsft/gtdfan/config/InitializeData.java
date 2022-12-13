@@ -39,9 +39,9 @@ public class InitializeData {
     @Transactional
     CommandLineRunner commandLineRunner(Clock clock) {
         return args -> {
-            User userLeonid = new User("leva@ya.ru", "Leonid", "Sukhin", "{noop}admin",
+            User userLeonid = new User("admin@ya.ru", "admin", "admin", "{noop}admin",
                     LocalDateTime.now(clock), true, Role.ADMIN);
-            User userNatasha = new User("ns@ya.ru", "Natasha", "Sukhina", "{noop}user",
+            User userNatasha = new User("user@ya.ru", "user", "user", "{noop}user",
                     LocalDateTime.now(clock), true, Role.USER);
             userRepository.saveAll(List.of(userLeonid, userNatasha));
 

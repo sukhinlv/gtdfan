@@ -3,19 +3,14 @@ package ru.jsft.gtdfan.web.controller.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import ru.jsft.gtdfan.model.Role;
 import ru.jsft.gtdfan.validation.NoHtml;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -47,18 +42,10 @@ public class UserDto {
 
     private boolean enabled = true;
 
-    @NotEmpty(message = "Roles must not be empty")
-    private Set<Role> roles;
+    @NotBlank(message = "Role must not be set")
+    private Role role;
 
     public void setEmail(String email) {
         this.email = StringUtils.hasText(email) ? email.toLowerCase() : null;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 }

@@ -31,6 +31,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.jsft.gtdfan.testdata.UserTestData.ADMIN;
+import static ru.jsft.gtdfan.utils.MockAuthorization.userHttpBasic;
 
 public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
     private static final MatcherFactory.Matcher<TaskDto> CATEGORY_DTO_MATCHER =
@@ -106,13 +108,28 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
         MvcResult mvcResult = mockMvc.perform(post(REST_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonUtil.writeValue(mapper.toDto(expected))))
+                        .content(JsonUtil.writeValue(mapper.toDto(expected)))
+                        .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
         Task actual = mapper.toEntity(JsonUtil.readValue(mvcResult.getResponse().getContentAsString(), TaskDto.class));
         expected.setId(actual.getId());
 
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(actual).usingRecursiveComparison().ignoringFields("created", "updated").isEqualTo(expected);
+    }
+
+    @Test
+    void shouldNotCreateForUnauthorized() {
+        // Given
+        // When
+        // Then
+    }
+
+    @Test
+    void shouldCreateForbiddenForNoAdminRole() {
+        // Given
+        // When
+        // Then
     }
 }
