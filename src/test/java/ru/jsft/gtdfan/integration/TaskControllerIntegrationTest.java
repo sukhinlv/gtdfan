@@ -10,6 +10,7 @@ import org.springframework.web.util.NestedServletException;
 import ru.jsft.gtdfan.AbstractSpringBootTest;
 import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Task;
+import ru.jsft.gtdfan.service.TaskService;
 import ru.jsft.gtdfan.web.controller.TaskController;
 import ru.jsft.gtdfan.web.controller.dto.TaskDto;
 import ru.jsft.gtdfan.web.controller.mapper.TaskMapper;
@@ -17,13 +18,11 @@ import ru.jsft.gtdfan.web.util.JsonUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.jsft.gtdfan.testdata.TaskTestData.*;
-import static ru.jsft.gtdfan.testdata.UserTestData.ADMIN;
-import static ru.jsft.gtdfan.testdata.UserTestData.USER;
+import static ru.jsft.gtdfan.testdata.UserTestData.*;
 import static ru.jsft.gtdfan.utils.MockAuthorization.userHttpBasic;
 
 public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
@@ -34,6 +33,9 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
     @Autowired
     private TaskMapper mapper;
+
+    @Autowired
+    private TaskService taskService;
 
     @Nested
     class FindTask {
@@ -98,6 +100,10 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
             TaskDto actual = JsonUtil.readValue(mvcResult.getResponse().getContentAsString(), TaskDto.class);
             expected.setId(actual.getId());
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+
+            assertThat(taskService.findById(actual.getId(), USER_DTO.getId()))
+                    .usingRecursiveComparison()
+                    .isEqualTo(mapper.toEntity(expected));
         }
 
         @Test
@@ -129,62 +135,97 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
     @Nested
     class DeleteTask {
         @Test
-        void shouldDelete() {
-            // Given
-            // When
-            // Then
+        void shouldDelete() throws Exception {
+            mockMvc.perform(delete(REST_URL + "/9").with(userHttpBasic(USER))).andExpect(status().isNoContent());
+            assertThrows(NotFoundException.class, () -> taskService.findById(9L, USER_DTO.getId()));
         }
 
         @Test
         void shouldThrowWhenDeleteNotOwn() {
-            // Given
-            // When
-            // Then
+            NestedServletException parentException = assertThrows(NestedServletException.class,
+                    () -> mockMvc.perform(delete(REST_URL + "/1").with(userHttpBasic(USER))));
+
+            Throwable cause = parentException.getCause();
+            assertThat(cause)
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessageContaining("Task with id = 1 not found");
         }
 
         @Test
         void shouldThrowWhenDeleteNotFound() {
-            // Given
-            // When
-            // Then
+            NestedServletException parentException = assertThrows(NestedServletException.class,
+                    () -> mockMvc.perform(delete(REST_URL + "/100").with(userHttpBasic(USER))));
+
+            Throwable cause = parentException.getCause();
+            assertThat(cause)
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessageContaining("Task with id = 100 not found");
         }
 
         @Test
-        void shouldNotDeleteForUnauthorized() {
-            // Given
-            // When
-            // Then
+        void shouldNotDeleteForUnauthorized() throws Exception {
+            mockMvc.perform(delete(REST_URL + "/9")).andExpect(status().isUnauthorized());
         }
     }
 
     @Nested
     class UpdateTask {
         @Test
-        void shouldUpdate() {
-            // Given
-            // When
-            // Then
+        void shouldUpdate() throws Exception {
+            TaskDto expected = getUpdatedTaskDto();
+
+            MvcResult mvcResult = mockMvc.perform(put(REST_URL + "/" + TASK_DTO_10.getId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(JsonUtil.writeValue(expected))
+                            .with(userHttpBasic(USER)))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andReturn();
+
+            TaskDto actual = JsonUtil.readValue(mvcResult.getResponse().getContentAsString(), TaskDto.class);
+            expected.setId(actual.getId());
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+
+            assertThat(taskService.findById(TASK_DTO_10.getId(), USER_DTO.getId()))
+                    .usingRecursiveComparison()
+                    .isEqualTo(mapper.toEntity(expected));
         }
 
         @Test
         void shouldThrowWhenUpdateNotOwn() {
-            // Given
-            // When
-            // Then
+            TaskDto expected = getUpdatedTaskDto();
+
+            NestedServletException parentException = assertThrows(NestedServletException.class,
+                    () -> mockMvc.perform(put(REST_URL + "/" + TASK_DTO_10.getId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(JsonUtil.writeValue(expected))
+                            .with(userHttpBasic(ADMIN))));
+
+            Throwable cause = parentException.getCause();
+            assertThat(cause)
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessageContaining("Task with id = 10 not found");
         }
 
         @Test
         void shouldThrowWhenUpdateNotFound() {
-            // Given
-            // When
-            // Then
+            TaskDto expected = getUpdatedTaskDto();
+
+            NestedServletException parentException = assertThrows(NestedServletException.class,
+                    () -> mockMvc.perform(put(REST_URL + "/100")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(JsonUtil.writeValue(expected))
+                            .with(userHttpBasic(USER))));
+
+            Throwable cause = parentException.getCause();
+            assertThat(cause)
+                    .isInstanceOf(NotFoundException.class)
+                    .hasMessageContaining("Task with id = 100 not found");
         }
 
         @Test
-        void shouldNotUpdateForUnauthorized() {
-            // Given
-            // When
-            // Then
+        void shouldNotUpdateForUnauthorized() throws Exception {
+            mockMvc.perform(delete(REST_URL + "/9")).andExpect(status().isUnauthorized());
         }
     }
 }

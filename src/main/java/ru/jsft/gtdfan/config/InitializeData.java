@@ -83,7 +83,7 @@ public class InitializeData {
                     Task.builder().name("Some holdover task")
                             .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Some task by User")
-                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(user.getId()))
+                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(user.getId()))
                             .notes(List.of(
                                     Note.builder().updated(LocalDateTime.now(clock)).note("Note for User`s task").build()))
                             .build(),
