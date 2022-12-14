@@ -55,7 +55,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldThrow_WhenNotFindById() {
+    void shouldThrowWhenNotFindById() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.findById(1L))

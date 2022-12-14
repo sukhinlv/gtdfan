@@ -51,14 +51,22 @@ public class TaskTestData {
             LDT_FIXED, LDT_FIXED, TODAY, NONE, null, ADMIN_DTO.getId(), List.of());
     public static TaskDto TASK_DTO_8 = new TaskDto(8L, false, "Some holdover task", null, null,
             LDT_FIXED, LDT_FIXED, WEEK, MIDDLE, null, ADMIN_DTO.getId(), List.of());
-    public static List<TaskDto> ADMIN_TASKS = List.of(TASK_DTO_1, TASK_DTO_2, TASK_DTO_3, TASK_DTO_4, TASK_DTO_5,
-            TASK_DTO_6, TASK_DTO_7, TASK_DTO_8);
     public static TaskDto TASK_DTO_9 = new TaskDto(9L, false, "Some task by User", null, null,
             LDT_FIXED, LDT_FIXED, WEEK, MIDDLE, null, USER_DTO.getId(), List.of(
             new NoteDto(LDT_FIXED, "Note for User`s task")));
     public static TaskDto TASK_DTO_10 = new TaskDto(10L, false, "Some holdover task by User", null, null,
             LDT_FIXED, LDT_FIXED, WEEK, MIDDLE, null, USER_DTO.getId(), List.of());
+
+    public static List<TaskDto> ADMIN_TASKS = List.of(TASK_DTO_1, TASK_DTO_2, TASK_DTO_3, TASK_DTO_4, TASK_DTO_5,
+            TASK_DTO_6, TASK_DTO_7, TASK_DTO_8);
     public static List<TaskDto> ALL_TASKS = List.of(TASK_DTO_1, TASK_DTO_2, TASK_DTO_3, TASK_DTO_4, TASK_DTO_5,
             TASK_DTO_6, TASK_DTO_7, TASK_DTO_8, TASK_DTO_9, TASK_DTO_10);
     public static List<TaskDto> USER_TASKS = List.of(TASK_DTO_9, TASK_DTO_10);
+
+    public static final TaskDto getNewTaskDto() {
+        return new TaskDto(null, false, "Some test task",
+                LocalDateTime.of(2022, 12, 28, 12, 30),
+                "https://www.yandex.ru", LDT_FIXED, LDT_FIXED,
+                TODAY, MIDDLE, null, USER_DTO.getId(), List.of());
+    }
 }
