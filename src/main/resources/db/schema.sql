@@ -1,6 +1,6 @@
 -- uncomment for postgresql db
--- DROP SCHEMA public CASCADE;
--- CREATE SCHEMA public;
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
 
 CREATE TABLE category
 (

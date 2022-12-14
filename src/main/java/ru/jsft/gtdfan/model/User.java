@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true, exclude = {"password"})
-@Table("USERS")
+@Table("users")
 public class User extends BaseEntity implements Serializable {
 
     private String email;
@@ -35,7 +35,7 @@ public class User extends BaseEntity implements Serializable {
 
     private boolean enabled;
 
-    @Column("USER_ROLE")
+    @Column("user_role")
     private Role role;
 
     public void setEmail(String email) {

@@ -1,16 +1,9 @@
 spring:
   datasource:
-    # inmemory db
-    driver-class-name: org.h2.Driver
-    url: "jdbc:h2:mem:gtdfan;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE" # https://stackoverflow.com/a/52481318/20265936
-    username: sa
-    password:
-
-    # postgresql db
-#      driver-class-name: org.postgresql.Driver
-#      url: jdbc:postgresql://localhost:5433/gtdfan
-#      username: user
-#      password: password
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5433/gtdfan
+      username: user
+      password: password
 
   sql:
     init:
