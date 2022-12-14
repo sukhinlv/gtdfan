@@ -14,7 +14,6 @@ import ru.jsft.gtdfan.web.security.AuthorizedUser;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -34,7 +33,6 @@ public class TaskController {
     public ResponseEntity<List<TaskDto>> findAllForUser(@AuthenticationPrincipal AuthorizedUser user) {
         return ResponseEntity.ok(StreamSupport.stream(service.findAllForUser(user.id()).spliterator(), false)
                 .map(mapper::toDto)
-                .sorted(Comparator.comparing(TaskDto::getName))
                 .toList());
     }
 

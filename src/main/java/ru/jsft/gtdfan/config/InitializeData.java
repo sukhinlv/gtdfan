@@ -23,27 +23,29 @@ public class InitializeData {
     private final PriorityRepository priorityRepository;
     private final CategoryRepository categoryRepository;
     private final TaskRepository taskRepository;
+    private final Clock clock;
 
     public InitializeData(UserRepository userRepository,
                           PriorityRepository priorityRepository,
                           CategoryRepository categoryRepository,
-                          TaskRepository taskRepository) {
+                          TaskRepository taskRepository, Clock clock) {
 
         this.userRepository = userRepository;
         this.priorityRepository = priorityRepository;
         this.categoryRepository = categoryRepository;
         this.taskRepository = taskRepository;
+        this.clock = clock;
     }
 
     @Bean
     @Transactional
-    CommandLineRunner commandLineRunner(Clock clock) {
+    CommandLineRunner commandLineRunner() {
         return args -> {
-            User userLeonid = new User("admin@ya.ru", "admin", "admin", "{noop}admin",
+            User admin = new User("admin@ya.ru", "admin", "admin", "{noop}admin",
                     LocalDateTime.now(clock), true, Role.ADMIN);
-            User userNatasha = new User("user@ya.ru", "user", "user", "{noop}user",
+            User user = new User("user@ya.ru", "user", "user", "{noop}user",
                     LocalDateTime.now(clock), true, Role.USER);
-            userRepository.saveAll(List.of(userLeonid, userNatasha));
+            userRepository.saveAll(List.of(admin, user));
 
             Priority high = new Priority("High", 0);
             Priority middle = new Priority("Middle", 5);
@@ -57,37 +59,37 @@ public class InitializeData {
 
             taskRepository.saveAll(List.of(
                     Task.builder().name("Проверь обновление 1С (еженедельно)")
-                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId()))
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(admin.getId()))
                             .notes(List.of(
                                     Note.builder().updated(LocalDateTime.now(clock)).note("Note for 1C update").build(),
                                     Note.builder().updated(LocalDateTime.now(clock)).note("Another one note for update").build()))
                             .build(),
                     Task.builder().name("Subtask for 1C update")
                             .supertaskId(to(1L))
-                            .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(userLeonid.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Орион: сбой резервного копирования!")
-                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Воронение стали")
                             .link("https://youtu.be/1GKftAi4gXo")
-                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Учебное видео: Sasgis, Ozi, распечатка. Полезные ресурсы.")
-                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(userLeonid.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(high.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Флешка с музыкой")
-                            .until(LocalDateTime.of(2022, 11, 15, 0, 0))
-                            .categoryId(to(today.getId())).priorityId(to(low.getId())).userId(to(userLeonid.getId())).build(),
+                            .until(LocalDateTime.of(2022, 11, 25, 0, 0))
+                            .categoryId(to(today.getId())).priorityId(to(low.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Видео с конференции JPoint...")
                             .link("https://www.youtube.com/playlist?list=PLVe-2wcL84b8OCdXV_tqP8YrMIlgB_BER")
-                            .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(userLeonid.getId())).build(),
+                            .categoryId(to(today.getId())).priorityId(to(none.getId())).userId(to(admin.getId())).build(),
                     Task.builder().name("Some holdover task")
-                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build(),
-                    Task.builder().name("Some task by Natasha")
-                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId()))
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(admin.getId())).build(),
+                    Task.builder().name("Some task by User")
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(user.getId()))
                             .notes(List.of(
-                                    Note.builder().updated(LocalDateTime.now(clock)).note("Note for Natasha`s task").build()))
+                                    Note.builder().updated(LocalDateTime.now(clock)).note("Note for User`s task").build()))
                             .build(),
-                    Task.builder().name("Some holdover task by Natasha")
+                    Task.builder().name("Some holdover task by User")
                             .until(LocalDateTime.of(2021, 1, 1, 0, 0))
-                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId())).build()
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(user.getId())).build()
             ));
         };
     }

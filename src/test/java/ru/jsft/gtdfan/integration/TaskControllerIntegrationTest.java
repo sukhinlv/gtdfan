@@ -1,7 +1,6 @@
 package ru.jsft.gtdfan.integration;
 
 import org.instancio.Instancio;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
@@ -13,15 +12,12 @@ import ru.jsft.gtdfan.AbstractSpringBootTest;
 import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.repository.TaskRepository;
-import ru.jsft.gtdfan.utils.MatcherFactory;
 import ru.jsft.gtdfan.web.controller.TaskController;
 import ru.jsft.gtdfan.web.controller.dto.TaskDto;
 import ru.jsft.gtdfan.web.controller.mapper.TaskMapper;
 import ru.jsft.gtdfan.web.util.JsonUtil;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -31,12 +27,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.jsft.gtdfan.testdata.TaskTestData.ADMIN_TASKS;
+import static ru.jsft.gtdfan.testdata.TaskTestData.TASK_DTO_MATCHER;
 import static ru.jsft.gtdfan.testdata.UserTestData.ADMIN;
 import static ru.jsft.gtdfan.utils.MockAuthorization.userHttpBasic;
 
 public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
-    private static final MatcherFactory.Matcher<TaskDto> CATEGORY_DTO_MATCHER =
-            MatcherFactory.usingIgnoringFieldsComparator(TaskDto.class);
     private static final String REST_URL = TaskController.REST_URL + "/";
 
     @Autowired
@@ -49,28 +45,15 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
     private TaskMapper mapper;
 
     @Test
-    @Disabled
-    void shouldGetAll() throws Exception {
-        List<Task> taskList = List.of(
-                Instancio.create(Task.class),
-                Instancio.create(Task.class)
-        );
-        when(repository.findAll()).thenReturn(taskList);
-
-        List<TaskDto> dtoList = taskList.stream()
-                .map(mapper::toDto)
-                .sorted(Comparator.comparing(TaskDto::getName))
-                .toList();
-
-        mockMvc.perform(get(REST_URL))
+    void shouldFindAllForUser() throws Exception {
+        mockMvc.perform(get(REST_URL).with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(CATEGORY_DTO_MATCHER.contentJson(dtoList));
+                .andExpect(TASK_DTO_MATCHER.contentJson(ADMIN_TASKS));
     }
 
     @Test
-    @Disabled
-    void shouldGet() throws Exception {
+    void shouldFindById() throws Exception {
         Task task = Instancio.create(Task.class);
         TaskDto taskDto = mapper.toDto(task);
         when(repository.findById(task.getId())).thenReturn(Optional.of(task));
@@ -78,11 +61,10 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
         mockMvc.perform(get(REST_URL + "/" + taskDto.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(CATEGORY_DTO_MATCHER.contentJson(taskDto));
+                .andExpect(TASK_DTO_MATCHER.contentJson(taskDto));
     }
 
     @Test
-    @Disabled
     void shouldThrow_WhenGetNotExisted() {
         long id = 1L;
         when(repository.findById(id)).thenReturn(Optional.empty());
@@ -127,7 +109,42 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
     }
 
     @Test
+    void shouldThrowWhenTaskIsNotNew() {
+        // Given
+        // When
+        // Then
+    }
+
+    @Test
     void shouldCreateForbiddenForNoAdminRole() {
+        // Given
+        // When
+        // Then
+    }
+
+    @Test
+    void shouldDelete() {
+        // Given
+        // When
+        // Then
+    }
+
+    @Test
+    void shouldNotDeleteForUnauthorized() {
+        // Given
+        // When
+        // Then
+    }
+
+    @Test
+    void shouldUpdate() {
+        // Given
+        // When
+        // Then
+    }
+
+    @Test
+    void shouldNotUpdateForUnauthorized() {
         // Given
         // When
         // Then

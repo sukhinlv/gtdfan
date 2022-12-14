@@ -2,7 +2,6 @@ package ru.jsft.gtdfan.testdata;
 
 import ru.jsft.gtdfan.model.Role;
 import ru.jsft.gtdfan.model.User;
-import ru.jsft.gtdfan.utils.MatcherFactory;
 import ru.jsft.gtdfan.web.controller.dto.UserDto;
 
 import java.time.LocalDateTime;
@@ -11,8 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 
 public class UserTestData {
-    public static MatcherFactory.Matcher<UserDto> USER_DTO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserDto.class, "password");
-
     public static List<UserDto> USER_DTO_LIST = new ArrayList<>(2002);
 
     public static User ADMIN = new User("admin@ya.ru", "admin", "admin", "admin", LocalDateTime.now(), true, Role.ADMIN);

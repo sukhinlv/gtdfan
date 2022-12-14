@@ -4,14 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.jdbc.repository.config.EnableJdbcAuditing;
 
 import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @Configuration
-@EnableJdbcAuditing
 @Slf4j
 class ApplicationConfig {
 
