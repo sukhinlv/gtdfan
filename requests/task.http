@@ -1,15 +1,17 @@
 ### Get all tasks
 GET http://localhost:8090/api/v1/tasks
 Accept: application/json
-Authorization: Basic leva@ya.ru admin
+Authorization: Basic admin@ya.ru admin
 
 ### Get task by id
 GET http://localhost:8090/api/v1/tasks/19
 Accept: application/json
+Authorization: Basic admin@ya.ru admin
 
 ### Create task
 POST http://localhost:8090/api/v1/tasks
 Content-Type: application/json
+Authorization: Basic admin@ya.ru admin
 
 {
   "completed": false,
@@ -22,3 +24,8 @@ Content-Type: application/json
   },
   "userId": 1
 }
+
+### Delete task
+DELETE http://localhost:8090/api/v1/tasks/1
+Authorization: Basic admin@ya.ru admin
+

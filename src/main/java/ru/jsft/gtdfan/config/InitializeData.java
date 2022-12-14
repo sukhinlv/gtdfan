@@ -81,13 +81,13 @@ public class InitializeData {
                     Task.builder().name("Some holdover task")
                             .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build(),
                     Task.builder().name("Some task by Natasha")
-                            .categoryId(to(today.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId()))
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId()))
                             .notes(List.of(
                                     Note.builder().updated(LocalDateTime.now(clock)).note("Note for Natasha`s task").build()))
                             .build(),
                     Task.builder().name("Some holdover task by Natasha")
                             .until(LocalDateTime.of(2021, 1, 1, 0, 0))
-                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userLeonid.getId())).build()
+                            .categoryId(to(week.getId())).priorityId(to(middle.getId())).userId(to(userNatasha.getId())).build()
             ));
         };
     }

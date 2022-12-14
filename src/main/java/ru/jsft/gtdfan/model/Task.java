@@ -40,6 +40,7 @@ public class Task extends BaseEntity {
 
     private AggregateReference<User, Long> userId;
 
-    @MappedCollection(idColumn = "task_id", keyColumn = "updated")
+    // https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#jdbc.entity-persistence.types
+    @MappedCollection(idColumn = "task_id", keyColumn = "note_id")
     List<Note> notes;
 }

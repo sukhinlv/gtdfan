@@ -1,6 +1,10 @@
--- uncomment for postgresql db
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
+DROP TABLE IF EXISTS note;
+DROP TABLE IF EXISTS tasks;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS priority;
 
 CREATE TABLE category
 (
@@ -50,8 +54,10 @@ CREATE INDEX task_id_userid_idx ON task (id, user_id);
 CREATE TABLE note
 (
     task_id   bigint    NOT NULL,
+    note_id   bigint    NOT NULL,
     updated   timestamp NOT NULL,
     note      varchar   NOT NULL,
+    PRIMARY KEY ("task_id", "note_id"),
     FOREIGN KEY (task_id) REFERENCES task (id) ON DELETE CASCADE
 );
 CREATE INDEX note_updated_index ON note (updated);
