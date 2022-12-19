@@ -8,7 +8,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
-import ru.jsft.gtdfan.error.NotFoundException;
+import ru.jsft.gtdfan.error.IllegalRequestDataException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.repository.TaskRepository;
 
@@ -61,7 +61,7 @@ class TaskServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.findById(1L, 1L))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("Task with id = %d not found", 1L));
     }
 
@@ -79,15 +79,15 @@ class TaskServiceTest {
         Task meal = Instancio.create(Task.class);
 
         assertThatThrownBy(() -> underTest.create(meal, 1L))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Task must be new");
+                .isInstanceOf(IllegalRequestDataException.class)
+                .hasMessageContaining("Task must be new (id = null)");
     }
 
     @Test
     void shouldDelete() {
         Task expected = Instancio.create(Task.class);
         expected.setUserId(AggregateReference.to(1L));
-        when(repository.findById(1L)).thenReturn(Optional.of(expected));
+        when(repository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.of(expected));
 
         underTest.delete(1L, expected.getUserId().getId());
 
@@ -101,7 +101,7 @@ class TaskServiceTest {
         original.setUserId(AggregateReference.to(1L));
         Task updated = Instancio.create(Task.class);
         updated.setId(original.getId());
-        when(repository.findById(original.getId())).thenReturn(Optional.of(original));
+        when(repository.findByIdAndUserId(original.getId(), 1L)).thenReturn(Optional.of(original));
         when(repository.save(updated)).thenReturn(updated);
 
         Task actual = underTest.update(original.getId(), updated, 1L);
@@ -114,7 +114,7 @@ class TaskServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.update(1L, new Task(), 1L))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("Task with id = %d not found", 1L));
     }
 
@@ -125,7 +125,7 @@ class TaskServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(notOwned));
 
         assertThatThrownBy(() -> underTest.update(1L, new Task(), 1L))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("Task with id = %d not found", 1L));
     }
 }

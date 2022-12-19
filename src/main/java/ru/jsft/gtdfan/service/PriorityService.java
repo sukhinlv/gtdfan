@@ -3,11 +3,11 @@ package ru.jsft.gtdfan.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.Priority;
 import ru.jsft.gtdfan.repository.PriorityRepository;
 
-import java.util.Optional;
+import static ru.jsft.gtdfan.validation.ValidationUtils.checkEntityNotNull;
+import static ru.jsft.gtdfan.validation.ValidationUtils.checkNew;
 
 @Service
 @Slf4j
@@ -25,16 +25,12 @@ public class PriorityService {
 
     public Priority findById(long id) {
         log.info("Find priority with id = {}", id);
-        return repository.findById(id)
-                .orElseThrow(() -> (new NotFoundException(String.format("Priority with id = %d not found", id))));
+        return checkEntityNotNull(repository.findById(id), id, Priority.class);
     }
 
     public Priority create(Priority priority) {
-        if (!priority.isNew()) {
-            throw new IllegalArgumentException("Priority must be new");
-        }
-
         log.info("Create priority: {}", priority);
+        checkNew(priority);
         return repository.save(priority);
     }
 
@@ -45,13 +41,8 @@ public class PriorityService {
 
     @Transactional
     public Priority update(long id, Priority priority) {
-        Optional<Priority> priorityOptional = repository.findById(id);
-
-        if (priorityOptional.isEmpty()) {
-            throw new NotFoundException(String.format("Priority with id = %d not found", id));
-        }
-
         log.info("Update priority with id = {}", priority.getId());
+        checkEntityNotNull(repository.findById(id), id, Priority.class);
         priority.setId(id);
         return repository.save(priority);
     }

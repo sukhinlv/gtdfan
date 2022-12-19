@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.util.NestedServletException;
 import ru.jsft.gtdfan.AbstractSpringBootTest;
-import ru.jsft.gtdfan.error.NotFoundException;
+import ru.jsft.gtdfan.error.IllegalRequestDataException;
 import ru.jsft.gtdfan.model.Task;
 import ru.jsft.gtdfan.service.TaskService;
 import ru.jsft.gtdfan.web.controller.TaskController;
@@ -19,8 +18,7 @@ import ru.jsft.gtdfan.web.util.JsonUtil;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.jsft.gtdfan.testdata.TaskTestData.*;
 import static ru.jsft.gtdfan.testdata.UserTestData.*;
 import static ru.jsft.gtdfan.utils.MockAuthorization.userHttpBasic;
@@ -56,25 +54,21 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
         }
 
         @Test
-        void shouldThrowWhenGetNotOwn() {
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(get(REST_URL + "/1").with(userHttpBasic(USER))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessageContaining("Task with id = 1 not found");
+        void shouldThrowWhenGetNotOwn() throws Exception {
+            mockMvc.perform(get(REST_URL + "/1")
+                            .with(userHttpBasic(USER)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task with id = 1 not found"));
         }
 
         @Test
-        void shouldThrowWhenGetNotFound() {
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(get(REST_URL + "/100").with(userHttpBasic(USER))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessageContaining("Task with id = 100 not found");
+        void shouldThrowWhenGetNotFound() throws Exception {
+            mockMvc.perform(get(REST_URL + "/100")
+                            .with(userHttpBasic(USER)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task with id = 100 not found"));
         }
 
         @Test
@@ -107,20 +101,17 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
         }
 
         @Test
-        void shouldThrowWhenTaskIsNotNew() {
+        void shouldThrowWhenTaskIsNotNew() throws Exception {
             TaskDto expected = getNewTaskDto();
             expected.setId(100L);
 
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(post(REST_URL)
+            mockMvc.perform(post(REST_URL)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(JsonUtil.writeValue(expected))
-                            .with(userHttpBasic(USER))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessageContaining("Task must be new");
+                            .with(userHttpBasic(USER)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task must be new (id = null)"));
         }
 
         @Test
@@ -137,29 +128,25 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
         @Test
         void shouldDelete() throws Exception {
             mockMvc.perform(delete(REST_URL + "/9").with(userHttpBasic(USER))).andExpect(status().isNoContent());
-            assertThrows(NotFoundException.class, () -> taskService.findById(9L, USER_DTO.getId()));
+            assertThrows(IllegalRequestDataException.class, () -> taskService.findById(9L, USER_DTO.getId()));
         }
 
         @Test
-        void shouldThrowWhenDeleteNotOwn() {
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(delete(REST_URL + "/1").with(userHttpBasic(USER))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessageContaining("Task with id = 1 not found");
+        void shouldThrowWhenDeleteNotOwn() throws Exception {
+            mockMvc.perform(delete(REST_URL + "/1")
+                            .with(userHttpBasic(USER)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task with id = 1 not found"));
         }
 
         @Test
-        void shouldThrowWhenDeleteNotFound() {
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(delete(REST_URL + "/100").with(userHttpBasic(USER))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessageContaining("Task with id = 100 not found");
+        void shouldThrowWhenDeleteNotFound() throws Exception {
+            mockMvc.perform(delete(REST_URL + "/100")
+                            .with(userHttpBasic(USER)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task with id = 100 not found"));
         }
 
         @Test
@@ -192,35 +179,29 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
         }
 
         @Test
-        void shouldThrowWhenUpdateNotOwn() {
+        void shouldThrowWhenUpdateNotOwn() throws Exception {
             TaskDto expected = getUpdatedTaskDto();
 
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(put(REST_URL + "/" + TASK_DTO_10.getId())
+            mockMvc.perform(put(REST_URL + "/" + TASK_DTO_10.getId())
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(JsonUtil.writeValue(expected))
-                            .with(userHttpBasic(ADMIN))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessageContaining("Task with id = 10 not found");
+                            .with(userHttpBasic(ADMIN)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task with id = 10 not found"));
         }
 
         @Test
-        void shouldThrowWhenUpdateNotFound() {
+        void shouldThrowWhenUpdateNotFound() throws Exception {
             TaskDto expected = getUpdatedTaskDto();
 
-            NestedServletException parentException = assertThrows(NestedServletException.class,
-                    () -> mockMvc.perform(put(REST_URL + "/100")
+            mockMvc.perform(put(REST_URL + "/100")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(JsonUtil.writeValue(expected))
-                            .with(userHttpBasic(USER))));
-
-            Throwable cause = parentException.getCause();
-            assertThat(cause)
-                    .isInstanceOf(NotFoundException.class)
-                    .hasMessageContaining("Task with id = 100 not found");
+                            .with(userHttpBasic(USER)))
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isUnprocessableEntity())
+                    .andExpect(jsonPath("$.message").value("Task with id = 100 not found"));
         }
 
         @Test

@@ -7,7 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.jsft.gtdfan.error.NotFoundException;
+import ru.jsft.gtdfan.error.IllegalRequestDataException;
 import ru.jsft.gtdfan.model.User;
 import ru.jsft.gtdfan.repository.UserRepository;
 
@@ -59,7 +59,7 @@ class UserServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.findById(1L))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("User with id = %d not found", 1L));
     }
 
@@ -77,8 +77,8 @@ class UserServiceTest {
         User meal = Instancio.create(User.class);
 
         assertThatThrownBy(() -> underTest.create(meal))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("User must be new");
+                .isInstanceOf(IllegalRequestDataException.class)
+                .hasMessageContaining("User must be new (id = null)");
     }
 
     @Test
@@ -107,7 +107,7 @@ class UserServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.update(1L, new User()))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("User with id = %d not found", 1L));
     }
 }

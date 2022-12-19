@@ -7,7 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.jsft.gtdfan.error.NotFoundException;
+import ru.jsft.gtdfan.error.IllegalRequestDataException;
 import ru.jsft.gtdfan.model.Priority;
 import ru.jsft.gtdfan.repository.PriorityRepository;
 
@@ -59,7 +59,7 @@ class PriorityServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.findById(1L))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("Priority with id = %d not found", 1L));
     }
 
@@ -77,8 +77,8 @@ class PriorityServiceTest {
         Priority meal = Instancio.create(Priority.class);
 
         assertThatThrownBy(() -> underTest.create(meal))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Priority must be new");
+                .isInstanceOf(IllegalRequestDataException.class)
+                .hasMessageContaining("Priority must be new (id = null)");
     }
 
     @Test
@@ -107,7 +107,7 @@ class PriorityServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> underTest.update(1L, new Priority()))
-                .isInstanceOf(NotFoundException.class)
+                .isInstanceOf(IllegalRequestDataException.class)
                 .hasMessageContaining(String.format("Priority with id = %d not found", 1L));
     }
 }

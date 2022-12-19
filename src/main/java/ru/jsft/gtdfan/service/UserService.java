@@ -3,9 +3,11 @@ package ru.jsft.gtdfan.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.jsft.gtdfan.error.NotFoundException;
 import ru.jsft.gtdfan.model.User;
 import ru.jsft.gtdfan.repository.UserRepository;
+
+import static ru.jsft.gtdfan.validation.ValidationUtils.checkEntityNotNull;
+import static ru.jsft.gtdfan.validation.ValidationUtils.checkNew;
 
 @Service
 @Slf4j
@@ -23,16 +25,12 @@ public class UserService {
 
     public User findById(long id) {
         log.info("Find user with id = {}", id);
-        return repository.findById(id)
-                .orElseThrow(() -> (new NotFoundException(String.format("User with id = %d not found", id))));
+        return checkEntityNotNull(repository.findById(id), id, User.class);
     }
 
     public User create(User user) {
-        if (!user.isNew()) {
-            throw new IllegalArgumentException("User must be new");
-        }
-
         log.info("Create user: {}", user);
+        checkNew(user);
         return repository.save(user);
     }
 
@@ -43,9 +41,8 @@ public class UserService {
 
     @Transactional
     public User update(long id, User user) {
-        User storedUser = repository.findById(id).orElseThrow(() -> new NotFoundException(String.format("User with id = %d not found", id)));
-
         log.info("Update user with id = {}", user.getId());
+        User storedUser = checkEntityNotNull(repository.findById(id), id, User.class);
         user.setId(id);
         user.setPassword(storedUser.getPassword()); // do not update the password, it must be updated in a separate way
         user.setRole(storedUser.getRole()); // do not update role, it must be updated in a separate way
