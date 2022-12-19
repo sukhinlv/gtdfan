@@ -24,7 +24,7 @@ public class UserTestData {
     }
 
     public static UserDto getNewDto() {
-        return new UserDto(null, "new@gmail.com", "newusername", "newsurname", "***", LocalDateTime.now(), true, Role.USER);
+        return new UserDto(null, "new@gmail.com", "проверим и юникод тоже", "newsurname", "***", LocalDateTime.now(), true, Role.USER);
     }
 
     public static UserDto getUpdatedDto() {
