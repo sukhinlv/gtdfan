@@ -17,7 +17,7 @@ CREATE TABLE priority
 CREATE TABLE users
 (
     id         SERIAL PRIMARY KEY,
-    email      varchar UNIQUE NOT NULL,
+    email      varchar        NOT NULL,
     first_name varchar        NOT NULL,
     last_name  varchar        NOT NULL,
     password   varchar        NOT NULL,
@@ -25,6 +25,7 @@ CREATE TABLE users
     enabled    bool                    DEFAULT true,
     user_role  varchar        NOT NULL
 );
+CREATE UNIQUE INDEX users_email_unique_idx ON users (email);
 
 CREATE TABLE task
 (
@@ -44,7 +45,7 @@ CREATE TABLE task
     FOREIGN KEY (supertask_id) REFERENCES task (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE INDEX task_id_userid_idx ON task (id, user_id);
+CREATE UNIQUE INDEX task_id_userid_idx ON task (id, user_id);
 
 CREATE TABLE note
 (

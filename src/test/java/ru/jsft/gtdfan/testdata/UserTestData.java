@@ -2,19 +2,23 @@ package ru.jsft.gtdfan.testdata;
 
 import ru.jsft.gtdfan.model.Role;
 import ru.jsft.gtdfan.model.User;
+import ru.jsft.gtdfan.utils.MatcherFactory;
 import ru.jsft.gtdfan.web.controller.dto.UserDto;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static ru.jsft.gtdfan.testdata.CommonTestData.FIXED_DATE_TIME;
+
 public class UserTestData {
+    public static MatcherFactory.Matcher<UserDto> USER_DTO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(UserDto.class, "password");
+
     public static List<UserDto> USER_DTO_LIST = new ArrayList<>(2002);
 
-    public static User ADMIN = new User("admin@ya.ru", "admin", "admin", "admin", LocalDateTime.now(), true, Role.ADMIN);
+    public static User ADMIN = new User("admin@ya.ru", "admin", "admin", "admin", FIXED_DATE_TIME, true, Role.ADMIN);
     public static UserDto ADMIN_DTO = new UserDto(1L, ADMIN.getEmail(), ADMIN.getFirstName(), ADMIN.getLastName(), "***", ADMIN.getCreated(), ADMIN.isEnabled(), ADMIN.getRole());
-    public static User USER = new User("user@ya.ru", "user", "user", "user", LocalDateTime.now(), true, Role.USER);
+    public static User USER = new User("user@ya.ru", "user", "user", "user", FIXED_DATE_TIME, true, Role.USER);
     public static UserDto USER_DTO = new UserDto(2L, USER.getEmail(), USER.getFirstName(), USER.getLastName(), "***", USER.getCreated(), USER.isEnabled(), USER.getRole());
 
     static {
@@ -24,7 +28,7 @@ public class UserTestData {
     }
 
     public static UserDto getNewDto() {
-        return new UserDto(null, "new@gmail.com", "проверим и юникод тоже", "newsurname", "***", LocalDateTime.now(), true, Role.USER);
+        return new UserDto(null, "new@gmail.com", "проверим и юникод тоже", "newsurname", "***", FIXED_DATE_TIME, true, Role.USER);
     }
 
     public static UserDto getUpdatedDto() {

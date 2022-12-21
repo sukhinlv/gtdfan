@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import ru.jsft.gtdfan.AbstractSpringBootTest;
 import ru.jsft.gtdfan.error.IllegalRequestDataException;
@@ -25,9 +24,6 @@ import static ru.jsft.gtdfan.utils.MockAuthorization.userHttpBasic;
 
 public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
     private static final String REST_URL = TaskController.REST_URL + "/";
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Autowired
     private TaskMapper mapper;
@@ -85,13 +81,13 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
             MvcResult mvcResult = mockMvc.perform(post(REST_URL)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(JsonUtil.writeValue(expected))
+                            .content(JsonUtil.objectToJson(expected))
                             .with(userHttpBasic(USER)))
                     .andExpect(status().isCreated())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andReturn();
 
-            TaskDto actual = JsonUtil.readValue(mvcResult.getResponse().getContentAsString(), TaskDto.class);
+            TaskDto actual = JsonUtil.jsonToObject(mvcResult.getResponse().getContentAsString(), TaskDto.class);
             expected.setId(actual.getId());
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 
@@ -107,7 +103,7 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
             mockMvc.perform(post(REST_URL)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(JsonUtil.writeValue(expected))
+                            .content(JsonUtil.objectToJson(expected))
                             .with(userHttpBasic(USER)))
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andExpect(status().isUnprocessableEntity())
@@ -118,7 +114,7 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
         void shouldNotCreateForUnauthorized() throws Exception {
             mockMvc.perform(post(REST_URL)
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(JsonUtil.writeValue(mapper.toDto(new Task()))))
+                            .content(JsonUtil.objectToJson(mapper.toDto(new Task()))))
                     .andExpect(status().isUnauthorized());
         }
     }
@@ -163,13 +159,13 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
             MvcResult mvcResult = mockMvc.perform(put(REST_URL + "/" + TASK_DTO_10.getId())
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(JsonUtil.writeValue(expected))
+                            .content(JsonUtil.objectToJson(expected))
                             .with(userHttpBasic(USER)))
                     .andExpect(status().isOk())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andReturn();
 
-            TaskDto actual = JsonUtil.readValue(mvcResult.getResponse().getContentAsString(), TaskDto.class);
+            TaskDto actual = JsonUtil.jsonToObject(mvcResult.getResponse().getContentAsString(), TaskDto.class);
             expected.setId(actual.getId());
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
 
@@ -184,7 +180,7 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
             mockMvc.perform(put(REST_URL + "/" + TASK_DTO_10.getId())
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(JsonUtil.writeValue(expected))
+                            .content(JsonUtil.objectToJson(expected))
                             .with(userHttpBasic(ADMIN)))
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andExpect(status().isUnprocessableEntity())
@@ -197,7 +193,7 @@ public class TaskControllerIntegrationTest extends AbstractSpringBootTest {
 
             mockMvc.perform(put(REST_URL + "/100")
                             .contentType(MediaType.APPLICATION_JSON)
-                            .content(JsonUtil.writeValue(expected))
+                            .content(JsonUtil.objectToJson(expected))
                             .with(userHttpBasic(USER)))
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                     .andExpect(status().isUnprocessableEntity())
